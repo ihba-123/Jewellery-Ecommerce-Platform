@@ -4,7 +4,7 @@ const CategorySection = ({ categories }) => {
   return (
     <section
       id="categories"
-      className="relative mx-auto flex min-h-screen w-full max-w-[90rem] flex-col justify-center px-4 py-10 sm:px-6 lg:px-8"
+      className="relative mx-auto flex min-h-screen w-full max-w-360 flex-col justify-center px-4 py-10 sm:px-6 lg:px-8"
     >
       <div className="pointer-events-none absolute -left-20 top-12 h-48 w-48 rounded-full bg-[#d4af37]/15 blur-3xl" />
       <div className="pointer-events-none absolute right-0 top-0 h-52 w-52 rounded-full bg-white/10 blur-3xl" />

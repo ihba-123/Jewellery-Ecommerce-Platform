@@ -13,11 +13,11 @@ const CategoryCard = ({ category }) => {
   return (
     <Link
       to={`/categories/${category.slug}`}
-      className="group relative isolate overflow-hidden rounded-3xl border border-white/15 bg-white/5 shadow-[0_18px_34px_rgba(0,0,0,0.36)] backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-2 hover:border-[#d4af37]/50 hover:shadow-[0_24px_60px_rgba(0,0,0,0.52),0_0_28px_rgba(212,175,55,0.32)] xl:h-[31.5rem]"
+      className="group relative isolate overflow-hidden rounded-3xl border border-white/15 bg-white/5 shadow-[0_18px_34px_rgba(0,0,0,0.36)] backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-2 hover:border-[#d4af37]/50 hover:shadow-[0_24px_60px_rgba(0,0,0,0.52),0_0_28px_rgba(212,175,55,0.32)] xl:h-126"
     >
       <div className="absolute inset-0 bg-linear-to-b from-[#d4af37]/5 via-transparent to-black/20" />
 
-      <div className="relative h-64 overflow-hidden sm:h-72 xl:h-[22rem]">
+      <div className="relative h-64 overflow-hidden sm:h-72 xl:h-88">
         <img
           src={category.image}
           alt={category.name}
