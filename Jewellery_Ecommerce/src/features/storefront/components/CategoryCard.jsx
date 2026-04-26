@@ -13,28 +13,112 @@ const CategoryCard = ({ category }) => {
   return (
     <Link
       to={`/categories/${category.slug}`}
-      className="group relative isolate overflow-hidden rounded-3xl border border-white/15 bg-white/5 shadow-[0_18px_34px_rgba(0,0,0,0.36)] backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-2 hover:border-[#d4af37]/50 hover:shadow-[0_24px_60px_rgba(0,0,0,0.52),0_0_28px_rgba(212,175,55,0.32)] xl:h-126"
+      className="group relative isolate overflow-hidden  rounded-2xl border border-white/12 bg-white/5 backdrop-blur-xl transition-all duration-500  ease-out hover:-translate-y-1.5 hover:border-[#d4af37]/45 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45),0_0_20px_rgba(212,175,55,0.22)]"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.28)',
+      }}
     >
-      <div className="absolute inset-0 bg-linear-to-b from-[#d4af37]/5 via-transparent to-black/20" />
+      {/* Subtle top gradient sheen */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{ background: 'linear-gradient(160deg, rgba(212,175,55,0.06) 0%, transparent 50%, rgba(0,0,0,0.15) 100%)' }}
+      />
 
-      <div className="relative h-64 overflow-hidden sm:h-72 xl:h-88">
+      {/* ── Image ─────────────────────────────────── */}
+      <div className="relative overflow-hidden  " style={{ aspectRatio: '3/2' }}>
         <img
           src={category.image}
           alt={category.name}
-          className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.6s ease' }}
+          className="group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-[#070707]/90 via-[#070707]/45 to-[#070707]/15" />
+        {/* Dark gradient for text legibility */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'linear-gradient(to top, rgba(5,4,14,0.75) 0%, rgba(5,4,14,0.2) 55%, transparent 100%)' }}
+        />
+        {/* Category pill — top left */}
+        <div
+          style={{
+            position: 'absolute', top: '0.65rem', left: '0.65rem',
+            background: 'rgba(0,0,0,0.45)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: '9999px',
+            padding: '0.2rem 0.6rem',
+            backdropFilter: 'blur(8px)',
+            
+          }}
+        >
+          <span style={{ fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#f1e3b4' }}>
+            Collection
+          </span>
+        </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 p-4 sm:p-5">
-        <div className="rounded-2xl border border-white/20 bg-black/30 p-4 backdrop-blur-md transition-all duration-500 group-hover:border-[#d4af37]/50 group-hover:bg-black/40 sm:p-5">
-          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-[#f1e3b4]">Category</p>
-          <h3 className="mt-1 font-['Playfair_Display'] text-2xl text-white sm:text-[1.9rem]">{category.name}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-white/78">{tagline}</p>
+      {/* ── Content ───────────────────────────────── */}
+      <div
+        style={{
+          padding: '0.875rem 1rem 1rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.35rem',
+          borderTop: '1px solid rgba(255,255,255,0.07)',
+        }}
+      >
+        <h3
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+            fontWeight: 600,
+            color: '#fff',
+            lineHeight: 1.2,
+            margin: 0,
+          }}
+        >
+          {category.name}
+        </h3>
 
-          <span className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/55 bg-[#d4af37]/18 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#f8e9bc] transition-all duration-500 group-hover:bg-[#d4af37] group-hover:text-[#211503]">
-            Explore Collection
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1">
+        <p
+          style={{
+            fontSize: '0.75rem',
+            color: 'rgba(255,255,255,0.6)',
+            lineHeight: 1.5,
+            margin: 0,
+          }}
+        >
+          {tagline}
+        </p>
+
+        {/* CTA row */}
+        <div style={{ marginTop: '0.5rem' }}>
+          <span
+            className="group-hover:bg-[#d4af37] group-hover:text-[#211503] group-hover:border-[#d4af37]"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              borderRadius: '9999px',
+              border: '1px solid rgba(212,175,55,0.45)',
+              background: 'rgba(212,175,55,0.12)',
+              padding: '0.3rem 0.85rem',
+              fontSize: '0.65rem',
+              fontWeight: 700,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#f8e9bc',
+              transition: 'all 0.4s ease',
+            }}
+          >
+            Explore
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style={{ width: '0.7rem', height: '0.7rem', transition: 'transform 0.4s ease' }}
+              className="group-hover:translate-x-0.5"
+            >
               <path fillRule="evenodd" d="M10.293 4.293a1 1 0 0 1 1.414 0l5 5a1 1 0 0 1 0 1.414l-5 5a1 1 0 1 1-1.414-1.414L13.586 11H4a1 1 0 1 1 0-2h9.586l-3.293-3.293a1 1 0 0 1 0-1.414Z" clipRule="evenodd" />
             </svg>
           </span>
@@ -45,3 +129,4 @@ const CategoryCard = ({ category }) => {
 }
 
 export default CategoryCard
+

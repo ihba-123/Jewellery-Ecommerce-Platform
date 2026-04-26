@@ -3,7 +3,7 @@ const ProductCard = ({ product, onSelect, onQrClick }) => {
     <button
       type="button"
       onClick={() => onSelect(product)}
-      className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 text-left shadow-[0_12px_30px_rgba(0,0,0,0.3)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/40 hover:shadow-[0_18px_42px_rgba(0,0,0,0.42),0_0_24px_rgba(212,175,55,0.12)]"
+      className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 w-full text-left shadow-[0_12px_30px_rgba(0,0,0,0.3)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/40 hover:shadow-[0_18px_42px_rgba(0,0,0,0.42),0_0_24px_rgba(212,175,55,0.12)]"
       aria-label={`Open ${product.name} quick view`}
     >
       <img
