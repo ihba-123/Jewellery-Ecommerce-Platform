@@ -170,22 +170,22 @@ const CategoryPage = () => {
 
   return (
     <>
-      <section className="mx-auto w-full max-w-7xl px-4 pb-16 pt-10 sm:px-6 lg:px-8">
-        <div className="mb-10 flex flex-col gap-6 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_16px_40px_rgba(0,0,0,0.28)] backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:p-8">
+      <section className="mx-auto w-full max-w-7xl px-md pb-xl pt-lg sm:px-lg lg:px-xl">
+        <div className="mb-lg flex flex-col gap-md rounded-3xl border border-white/10 bg-white/5 p-md shadow-[0_16px_40px_rgba(0,0,0,0.28)] backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:p-lg">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-[#f5d97c]">Category</p>
-            <h1 className="mt-2 font-['Playfair_Display'] text-4xl text-white">{category.name}</h1>
-            <p className="mt-2 max-w-xl text-white/84">{category.description}</p>
+            <h1 className="mt-sm font-['Playfair_Display'] text-h1 text-white">{category.name}</h1>
+            <p className="mt-sm max-w-[65ch] text-body text-white/84">{category.description}</p>
           </div>
           <Link
             to="/"
-            className="rounded-md border border-[#d4af37]/35 px-4 py-2 text-sm text-[#f5d97c] transition hover:bg-white/8"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d4af37]/35 px-md py-sm text-button text-[#f5d97c] transition hover:bg-white/8"
           >
             Back to Home
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-md sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categoryProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -212,7 +212,7 @@ const CategoryPage = () => {
 
           <div className="relative flex min-h-full items-center justify-center px-4 py-6 sm:px-6">
             <article
-              className={`relative w-full max-w-md rounded-3xl border border-white/18 bg-linear-to-br from-[#2f2f5b]/96 via-[#2a315f]/95 to-[#3a2f5f]/96 p-5 shadow-[0_34px_70px_rgba(10,8,18,0.68)] transition-all duration-300 sm:p-6 ${
+              className={`relative w-full max-w-[min(100vw-2rem,28rem)] rounded-3xl border border-white/18 bg-linear-to-br from-[#2f2f5b]/96 via-[#2a315f]/95 to-[#3a2f5f]/96 p-5 shadow-[0_34px_70px_rgba(10,8,18,0.68)] transition-all duration-300 sm:p-6 ${
                 qrModalOpen ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-4 scale-95 opacity-0'
               }`}
             >
@@ -253,7 +253,7 @@ const CategoryPage = () => {
                     }),
                   )}`}
                   alt={`QR code for ${selectedQrProduct.name}`}
-                  className="mx-auto h-52 w-52 rounded-xl border border-white/12 bg-white p-2"
+                  className="mx-auto aspect-square w-full max-w-[16rem] rounded-xl border border-white/12 bg-white p-2"
                 />
                 <p className="mt-3 text-center text-xs text-white/70">
                   Scan this QR to access item details quickly.
@@ -299,9 +299,10 @@ const CategoryPage = () => {
 
           <div className="relative flex min-h-full items-center justify-center px-4 py-6 sm:px-6">
             <article
-              className={`relative max-h-screen w-full max-w-5xl overflow-y-auto rounded-3xl border border-white/18 bg-linear-to-br from-[#2f2f5b]/96 via-[#2a315f]/95 to-[#3a2f5f]/96 shadow-[0_34px_70px_rgba(10,8,18,0.68)] transition-all duration-300 ${
+              className={`relative w-full max-w-[min(100vw-2rem,64rem)] overflow-y-auto rounded-3xl border border-white/18 shadow-[0_34px_70px_rgba(10,8,18,0.68)] transition-all duration-300 ${
                 modalOpen ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-4 scale-95 opacity-0'
               }`}
+              style={{ maxHeight: '100dvh', backgroundImage: 'linear-gradient(135deg, rgba(47,47,91,0.96), rgba(42,49,95,0.95), rgba(58,47,95,0.96))' }}
             >
               <button
                 type="button"
@@ -323,7 +324,7 @@ const CategoryPage = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="space-y-3 p-3 sm:p-4">
-                  <div className="relative h-64 overflow-hidden rounded-2xl sm:h-72 md:h-80 lg:h-96">
+                  <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: '4 / 3' }}>
                     <img
                       src={selectedImage}
                       alt={selectedProduct.name}

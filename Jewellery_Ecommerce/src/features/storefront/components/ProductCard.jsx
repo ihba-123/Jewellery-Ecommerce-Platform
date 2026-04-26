@@ -9,23 +9,23 @@ const ProductCard = ({ product, onSelect, onQrClick }) => {
       <img
         src={product.image}
         alt={product.name}
-        className="h-52 w-full object-cover transition duration-500 hover:scale-105"
+        className="aspect-[4/3] w-full object-cover transition duration-500 hover:scale-105"
       />
 
-      <div className="space-y-2 p-5 sm:p-6">
-        <h3 className="font-['Playfair_Display'] text-xl text-white">{product.name}</h3>
+      <div className="space-y-2 p-md sm:p-lg">
+        <h3 className="font-['Playfair_Display'] text-h3 text-white">{product.name}</h3>
         <p className="text-sm text-white/72">Purity: {product.purity}</p>
         <p className="text-sm text-white/72">Weight: {product.weight}g</p>
 
-        <div className="mt-2 flex items-center justify-between gap-2">
-          <p className="text-lg font-semibold text-[#f5d97c]">Rs. {product.price.toLocaleString('en-IN')}</p>
+        <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-h4 font-semibold text-[#f5d97c]">Rs. {product.price.toLocaleString('en-IN')}</p>
           <button
             type="button"
             onClick={(event) => {
               event.stopPropagation()
               onQrClick(product)
             }}
-            className="inline-flex items-center gap-1 rounded-full border border-[#d4af37]/45 bg-[#151428]/92 px-2.5 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-[#f5d97c] shadow-[0_10px_20px_rgba(0,0,0,0.36)] transition hover:scale-105 hover:border-[#f5d97c]/65 hover:bg-[#1b1933]"
+            className="inline-flex min-h-11 items-center justify-center gap-1 rounded-full border border-[#d4af37]/45 bg-[#151428]/92 px-3 py-2 text-small font-semibold uppercase tracking-[0.08em] text-[#f5d97c] shadow-[0_10px_20px_rgba(0,0,0,0.36)] transition hover:scale-105 hover:border-[#f5d97c]/65 hover:bg-[#1b1933]"
             aria-label={`Show QR code for ${product.name}`}
           >
             QR

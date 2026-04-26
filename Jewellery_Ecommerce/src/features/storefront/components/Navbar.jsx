@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
 
 const navLinkClasses = ({ isActive }) =>
-  `rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-white/8 hover:text-[#f5d97c] md:text-[0.95rem] ${
+  `rounded-full px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-white/8 hover:text-[#f5d97c] md:text-[0.95rem] ${
     isActive ? 'bg-white/10 text-[#f5d97c] shadow-[0_6px_16px_rgba(212,175,55,0.12)]' : 'text-white/80'
   }`
 
@@ -86,7 +86,7 @@ const Navbar = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <nav
-        className={`flex h-18 w-full items-center gap-2 border-b border-white/14 px-4 shadow-[0_12px_34px_rgba(82,92,196,0.18)] transition-all duration-300 sm:h-20 sm:px-6 lg:gap-4 lg:px-8 ${
+        className={`flex min-h-[var(--dashboard-topbar-height)] w-full items-center gap-2 border-b border-white/14 px-md py-sm shadow-[0_12px_34px_rgba(82,92,196,0.18)] transition-all duration-300 lg:gap-4 lg:px-lg ${
           isScrolled
             ? 'bg-linear-to-r from-[#667eea]/82 via-[#6f70d3]/78 to-[#764ba2]/82 backdrop-blur-2xl'
             : 'bg-linear-to-r from-[#667eea]/72 via-[#6f70d3]/66 to-[#764ba2]/72 backdrop-blur-xl'
@@ -135,10 +135,10 @@ const Navbar = () => {
         <div className="ml-auto flex min-w-0 items-center gap-2 md:hidden">
           <div
             className={`overflow-hidden transition-all duration-300 ${
-              mobileSearchOpen ? 'max-w-56 opacity-100' : 'max-w-0 opacity-0'
+              mobileSearchOpen ? 'max-w-[min(70vw,18rem)] opacity-100' : 'max-w-0 opacity-0'
             }`}
           >
-            <form onSubmit={handleSearchSubmit} className="relative w-56">
+            <form onSubmit={handleSearchSubmit} className="relative w-[min(70vw,18rem)]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -279,7 +279,7 @@ const Navbar = () => {
         />
 
         <aside
-          className={`absolute left-0 top-0 h-full w-[82%] max-w-xs border-r border-white/12 bg-linear-to-b from-[#667eea]/92 to-[#764ba2]/94 px-5 py-5 shadow-xl transition-transform duration-300 ease-out backdrop-blur-2xl ${
+          className={`absolute left-0 top-0 h-full w-[min(88vw,20rem)] border-r border-white/12 bg-linear-to-b from-[#667eea]/92 to-[#764ba2]/94 px-md py-md shadow-xl transition-transform duration-300 ease-out backdrop-blur-2xl ${
             menuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -309,21 +309,21 @@ const Navbar = () => {
           <div className="flex flex-col gap-2">
             <Link
               to="/"
-              className="rounded-md px-4 py-2.5 text-sm font-medium text-white/80 transition hover:bg-white/8 hover:text-[#f5d97c]"
+              className="rounded-lg px-4 py-3 text-sm font-medium text-white/80 transition hover:bg-white/8 hover:text-[#f5d97c]"
               onClick={() => setMenuOpen(false)}
             >
               Home
             </Link>
             <button
               type="button"
-              className="rounded-md px-4 py-2.5 text-left text-sm font-medium text-white/80 transition hover:bg-white/8 hover:text-[#f5d97c]"
+              className="rounded-lg px-4 py-3 text-left text-sm font-medium text-white/80 transition hover:bg-white/8 hover:text-[#f5d97c]"
               onClick={handleCategoriesClick}
             >
               Categories
             </button>
             <button
               type="button"
-              className="rounded-md px-4 py-2.5 text-left text-sm font-medium text-white/80 transition hover:bg-white/8 hover:text-[#f5d97c]"
+              className="rounded-lg px-4 py-3 text-left text-sm font-medium text-white/80 transition hover:bg-white/8 hover:text-[#f5d97c]"
               onClick={() => {
                 setMenuOpen(false)
                 navigate('/login')
@@ -333,7 +333,7 @@ const Navbar = () => {
             </button>
             <button
               type="button"
-              className="rounded-md px-4 py-2.5 text-sm font-medium text-[#f5d97c] transition hover:bg-white/8"
+              className="rounded-lg px-4 py-3 text-sm font-medium text-[#f5d97c] transition hover:bg-white/8"
               onClick={() => {
                 setMenuOpen(false)
                 navigate('/signup/customer')
@@ -343,7 +343,7 @@ const Navbar = () => {
             </button>
             <button
               type="button"
-              className="rounded-md px-4 py-2.5 text-sm font-medium text-[#f5d97c] transition hover:bg-white/8"
+              className="rounded-lg px-4 py-3 text-sm font-medium text-[#f5d97c] transition hover:bg-white/8"
               onClick={() => {
                 setMenuOpen(false)
                 navigate('/signup/business')

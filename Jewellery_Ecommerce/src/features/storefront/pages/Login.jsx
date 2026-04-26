@@ -5,11 +5,11 @@ const inputClassName =
 
 const Login = () => {
 	return (
-		<section className="mx-auto flex min-h-[calc(100vh-7rem)] w-full max-w-7xl items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-			<div className="w-full max-w-xl rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_20px_55px_rgba(0,0,0,0.3)] backdrop-blur-xl sm:p-8">
+		<section className="mx-auto flex min-h-[calc(100dvh-var(--dashboard-topbar-height))] w-full max-w-7xl items-center justify-center px-md py-lg sm:px-lg lg:px-xl">
+			<div className="w-full max-w-xl rounded-3xl border border-white/10 bg-white/5 p-md shadow-[0_20px_55px_rgba(0,0,0,0.3)] backdrop-blur-xl sm:p-lg">
 				<div className="mb-5 border-b border-white/10 pb-4">
 					<p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#f5d97c]">Welcome back</p>
-					<h1 className="mt-2 font-['Playfair_Display'] text-3xl font-semibold text-white">Login</h1>
+					<h1 className="mt-2 font-['Playfair_Display'] text-h2 font-semibold text-white">Login</h1>
 					<p className="mt-2 text-sm text-white/72">Access your account and continue shopping.</p>
 				</div>
 

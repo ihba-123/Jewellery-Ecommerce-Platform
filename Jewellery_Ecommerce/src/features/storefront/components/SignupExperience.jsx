@@ -140,18 +140,18 @@ const SignupExperience = ({ mode = 'customer' }) => {
   }
 
   return (
-    <section className="mx-auto flex min-h-[calc(100vh-7rem)] w-full max-w-7xl items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-      <div className={`w-full ${cardWidthClass} rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_20px_55px_rgba(0,0,0,0.3)] backdrop-blur-xl sm:p-8`}>
+    <section className="mx-auto flex min-h-[calc(100dvh-var(--dashboard-topbar-height))] w-full max-w-7xl items-center justify-center px-md py-lg sm:px-lg lg:px-xl">
+      <div className={`w-full ${cardWidthClass} rounded-3xl border border-white/10 bg-white/5 p-md shadow-[0_20px_55px_rgba(0,0,0,0.3)] backdrop-blur-xl sm:p-lg`}>
         <div className="mb-5 border-b border-white/10 pb-4">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#f5d97c]">Create account</p>
-          <h1 className="mt-2 font-['Playfair_Display'] text-3xl font-semibold text-white">{formTitle}</h1>
+          <h1 className="mt-2 font-['Playfair_Display'] text-h2 font-semibold text-white">{formTitle}</h1>
           <p className="mt-2 text-sm text-white/72">{formSubtitle}</p>
         </div>
 
         <div className="mb-5 grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-white/5 p-1.5">
           <Link
             to="/signup/customer"
-            className={`rounded-lg border px-3 py-2 text-center text-sm font-semibold transition-all duration-200 ${
+            className={`rounded-lg border px-3 py-2 text-center text-small font-semibold transition-all duration-200 ${
               activeMode === 'customer'
                 ? 'border-[#d4af37]/50 bg-[#d4af37]/15 text-[#f5d97c]'
                 : 'border-transparent text-white/70 hover:bg-white/8'
@@ -161,7 +161,7 @@ const SignupExperience = ({ mode = 'customer' }) => {
           </Link>
           <Link
             to="/signup/business"
-            className={`rounded-lg border px-3 py-2 text-center text-sm font-semibold transition-all duration-200 ${
+            className={`rounded-lg border px-3 py-2 text-center text-small font-semibold transition-all duration-200 ${
               activeMode === 'business'
                 ? 'border-[#d4af37]/50 bg-[#d4af37]/15 text-[#f5d97c]'
                 : 'border-transparent text-white/70 hover:bg-white/8'
