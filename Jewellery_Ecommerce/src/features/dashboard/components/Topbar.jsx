@@ -39,7 +39,7 @@ const Topbar = ({ onMenuClick }) => {
 
   return (
     <header
-      className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between border-b border-zinc-200 bg-white/80 px-md py-sm shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] backdrop-blur-md md:left-[var(--dashboard-sidebar-width)]"
+      className="fixed left-0  right-0 top-0 z-10 flex items-center justify-between border-b border-zinc-200 bg-white/80 px-md py-sm shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] backdrop-blur-md md:pl-[var(--dashboard-sidebar-width)]"
       style={{ minHeight: 'var(--dashboard-topbar-height)' }}
     >
       <div className="flex min-w-0 items-center gap-3 sm:gap-4">
