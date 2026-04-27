@@ -6,7 +6,7 @@ const getPageTitle = (pathname) => {
   }
 
   if (pathname.includes('/dashboard/orders/') && pathname.endsWith('/manage')) {
-    return 'Manage Order';
+    return 'Manage Order';                                              
   }
 
   if (pathname.includes('/dashboard/orders')) {
@@ -39,7 +39,7 @@ const Topbar = ({ onMenuClick }) => {
 
   return (
     <header
-      className="fixed left-0  right-0 top-0 z-10 flex items-center justify-between border-b border-zinc-200 bg-white/80 px-md py-sm shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] backdrop-blur-md md:pl-[var(--dashboard-sidebar-width)]"
+      className="fixed left-0  right-0 top-0 z-10 flex items-center justify-between  bg-white/10 px-md py-sm shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] backdrop-blur-md md:pl-[var(--dashboard-sidebar-width)]"
       style={{ minHeight: 'var(--dashboard-topbar-height)' }}
     >
       <div className="flex min-w-0 items-center gap-3 sm:gap-4">
@@ -50,7 +50,7 @@ const Topbar = ({ onMenuClick }) => {
           {/* Mobile menu icon placeholder */}
           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
         </button>
-        <h1 className="min-w-0 truncate text-h4 font-semibold text-zinc-900">{title}</h1>
+        <h1 className="min-w-0 truncate text-white text-h4 font-semibold ">{title}</h1>
       </div>
       
       <div className="flex items-center gap-4">

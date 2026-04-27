@@ -18,7 +18,7 @@ const OrdersTable = ({ orders }) => {
     <div className="overflow-x-auto">
       <table className="min-w-full border-collapse text-left text-sm text-zinc-800">
         <thead>
-          <tr className="border-b border-zinc-200 text-zinc-600">
+          <tr className="border-b font-bold text-[17px] leading-5 border-zinc-200 text-zinc-600">
             <th className="px-6 py-4 font-medium">Order #</th>
             <th className="px-6 py-4 font-medium">Placed On</th>
             <th className="px-6 py-4 font-medium">Items</th>

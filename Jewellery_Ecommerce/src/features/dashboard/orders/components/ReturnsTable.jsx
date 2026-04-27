@@ -11,9 +11,9 @@ const ReturnsTable = ({ returns }) => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full border-collapse text-left text-sm text-zinc-800">
+      <table className="min-w-full border-collapse  text-left text-sm text-zinc-800">
         <thead>
-          <tr className="border-b border-zinc-200 text-zinc-600">
+          <tr className="border-b text-[17px] font-boldad border-zinc-200 text-zinc-600">
             <th className="px-5 py-3 font-medium">Order #</th>
             <th className="px-5 py-3 font-medium">Name</th>
             <th className="px-5 py-3 font-medium">Order Description</th>

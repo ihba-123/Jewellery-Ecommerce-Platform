@@ -7,12 +7,9 @@ import ProductPage from "../../features/storefront/pages/ProductPage";
 import SignupBusiness from "../../features/storefront/pages/SignupBusiness";
 import SignupCustomer from "../../features/storefront/pages/SignupCustomer";
 
-// Auth & Protected Routes
 import { AuthProvider } from "../../features/auth/context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import DashboardLayout from "../../features/dashboard/layout/DashboardLayout";
-import Dashboard from "../../features/dashboard/pages/Dashboard";
-import RequestLoan from "../../features/dashboard/pages/RequestLoan";
 import MyProfile from "../../features/dashboard/pages/MyProfile";
 import AddressBook from "../../features/dashboard/pages/AddressBook";
 import MyOrders from "../../features/dashboard/pages/MyOrders";
@@ -21,81 +18,30 @@ import TrackOrder from "../../features/dashboard/pages/TrackOrder";
 import MyReturns from "../../features/dashboard/pages/MyReturns";
 import MyCancellations from "../../features/dashboard/pages/MyCancellations";
 import RequestOrder from "../../features/dashboard/pages/RequestOrder";
-import MyGoldItems from "../../features/dashboard/pages/MyGoldItems";
+
+/* Shared storefront wrapper — avoids repeating the same div 6 times */
+const StorefrontLayout = ({ children }) => (
+  <div className="min-h-[100dvh] overflow-x-clip text-white">
+    <Navbar />
+    <main className="pt-[calc(var(--dashboard-topbar-height)+var(--space-sm))]">
+      {children}
+    </main>
+  </div>
+);
 
 const AppRoutes = () => {
   return (
     <AuthProvider>
       <Routes>
-        {/* Public Routes (Global Layout with Navbar) */}
-        <Route
-          path="/"
-          element={
-            <div className="min-h-[100dvh] overflow-x-clip text-white">
-              <Navbar />
-              <main className="pt-[calc(var(--dashboard-topbar-height)+var(--space-sm))]">
-                <Home />
-              </main>
-            </div>
-          }
-        />
-        <Route
-          path="/categories/:categorySlug"
-          element={
-            <div className="min-h-[100dvh] overflow-x-clip text-white">
-              <Navbar />
-              <main className="pt-[calc(var(--dashboard-topbar-height)+var(--space-sm))]">
-                <CategoryPage />
-              </main>
-            </div>
-          }
-        />
-        <Route
-          path="/products/:productId"
-          element={
-            <div className="min-h-[100dvh] overflow-x-clip text-white">
-              <Navbar />
-              <main className="pt-[calc(var(--dashboard-topbar-height)+var(--space-sm))]">
-                <ProductPage />
-              </main>
-            </div>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <div className="min-h-[100dvh] overflow-x-clip text-white">
-              <Navbar />
-              <main className="pt-[calc(var(--dashboard-topbar-height)+var(--space-sm))]">
-                <Login />
-              </main>
-            </div>
-          }
-        />
-        <Route
-          path="/signup/customer"
-          element={
-            <div className="min-h-[100dvh] overflow-x-clip text-white">
-              <Navbar />
-              <main className="pt-[calc(var(--dashboard-topbar-height)+var(--space-sm))]">
-                <SignupCustomer />
-              </main>
-            </div>
-          }
-        />
-        <Route
-          path="/signup/business"
-          element={
-            <div className="min-h-[100dvh] overflow-x-clip text-white">
-              <Navbar />
-              <main className="pt-[calc(var(--dashboard-topbar-height)+var(--space-sm))]">
-                <SignupBusiness />
-              </main>
-            </div>
-          }
-        />
+        {/* ── Public / Storefront ─────────────────────── */}
+        <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
+        <Route path="/categories/:categorySlug" element={<StorefrontLayout><CategoryPage /></StorefrontLayout>} />
+        <Route path="/products/:productId" element={<StorefrontLayout><ProductPage /></StorefrontLayout>} />
+        <Route path="/login" element={<StorefrontLayout><Login /></StorefrontLayout>} />
+        <Route path="/signup/customer" element={<StorefrontLayout><SignupCustomer /></StorefrontLayout>} />
+        <Route path="/signup/business" element={<StorefrontLayout><SignupBusiness /></StorefrontLayout>} />
 
-        {/* Protected Dashboard Routes */}
+        {/* ── Protected Dashboard ─────────────────────── */}
         <Route
           path="/dashboard"
           element={
@@ -104,7 +50,9 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          {/* Default: redirect /dashboard → /dashboard/profile */}
+          <Route index element={<Navigate to="profile" replace />} />
+
           <Route path="profile" element={<MyProfile />} />
           <Route path="address-book" element={<AddressBook />} />
           <Route path="orders" element={<MyOrders />} />
@@ -113,10 +61,9 @@ const AppRoutes = () => {
           <Route path="orders/:orderId/manage" element={<ManageOrder />} />
           <Route path="orders/:orderId/tracking" element={<TrackOrder />} />
           <Route path="request-order" element={<RequestOrder />} />
-          <Route path="request-loan" element={<RequestLoan />} />
-          <Route path="gold-items" element={<MyGoldItems />} />
         </Route>
 
+        {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AuthProvider>

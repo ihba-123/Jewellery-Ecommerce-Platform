@@ -116,10 +116,9 @@ const Navbar = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <nav className={`flex w-full  items-center h-[3.5rem] px-4 sm:px-5 lg:px-7
-        border-b border-white/10 transition-all duration-300
-        ${isScrolled
-          ? 'bg-[#2f2568]/92 backdrop-blur-2xl shadow-[0_2px_20px_rgba(0,0,0,0.4)]'
-          : 'bg-gradient-to-r from-[#4a3a9a]/82 via-[#5546b8]/76 to-[#6b3fa8]/82 backdrop-blur-xl'}`}>
+        border-b border-white/10 transition-all duration-300 backdrop-blur-xl
+        ${isScrolled ? 'shadow-[0_2px_20px_rgba(0,0,0,0.4)]' : ''}`}
+        style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
 
         {/* Logo */}
         <Link to="/" className="flex shrink-0 items-center gap-2 mr-4">

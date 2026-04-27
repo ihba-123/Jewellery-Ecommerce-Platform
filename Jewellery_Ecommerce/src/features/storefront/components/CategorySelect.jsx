@@ -197,7 +197,7 @@ const CategorySelect = ({
                     <button
                       onClick={() =>
                         navigate(
-                          `/products/${selectedProduct.id}`
+                          `/login?redirect=/products/${selectedProduct.id}`
                         )
                       }
                       className="rounded-2xl bg-[#ffd86f] py-3 text-sm font-semibold text-black hover:brightness-110"
