@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 
 const EditProfileForm = ({ user, onCancel, onSave }) => {
   const [formData, setFormData] = useState({
@@ -8,15 +9,75 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
     annualIncome: user.annualIncome || '',
     idProof: user.idProof || '',
   });
+  const [touched, setTouched] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  const errors = useMemo(() => {
+    const e = {};
+
+    if (!formData.fullName.trim()) {
+      e.fullName = 'Full name is required';
+    } else if (formData.fullName.trim().length < 2) {
+      e.fullName = 'Full name must be at least 2 characters';
+    }
+
+    if (!formData.address.trim()) {
+      e.address = 'Address is required';
+    } else if (formData.address.trim().length < 5) {
+      e.address = 'Address must be at least 5 characters';
+    }
+
+    if (formData.occupation && formData.occupation.trim().length > 0 && formData.occupation.trim().length < 2) {
+      e.occupation = 'Occupation must be at least 2 characters if provided';
+    }
+
+    if (formData.annualIncome && formData.annualIncome.trim().length > 0 && !/^\d+/.test(formData.annualIncome)) {
+      e.annualIncome = 'Annual income should be a valid number';
+    }
+
+    return e;
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (onSave) onSave(formData);
+
+    // Mark all fields as touched
+    const allTouched = Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {});
+    setTouched(allTouched);
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      if (onSave) onSave(formData);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getInputClass = (fieldName) => {
+    const baseClass = 'w-full px-4 py-2.5 bg-zinc-50 border rounded-xl focus:ring-2 focus:border-amber-500 outline-none transition-all';
+
+    if (touched[fieldName] && errors[fieldName]) {
+      return `${baseClass} border-red-300 focus:ring-red-500/20`;
+    }
+    if (touched[fieldName] && !errors[fieldName]) {
+      return `${baseClass} border-green-300 focus:ring-green-500/20`;
+    }
+    return `${baseClass} border-zinc-200 focus:ring-amber-500/20`;
   };
 
   return (
@@ -27,28 +88,61 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-5">
+        {/* Full Name */}
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-zinc-700">Full Name</label>
+          <label className="text-sm font-medium text-zinc-700">Full Name *</label>
           <input
             type="text"
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all"
-            required
+            onBlur={handleBlur}
+            className={getInputClass('fullName')}
+            placeholder="Enter your full name"
+            disabled={isLoading}
           />
+          {touched.fullName && errors.fullName && (
+            <div className="flex items-center gap-2 text-xs text-red-600">
+              <AlertCircle size={14} />
+              {errors.fullName}
+            </div>
+          )}
+          {touched.fullName && !errors.fullName && formData.fullName && (
+            <div className="flex items-center gap-2 text-xs text-green-600">
+              <CheckCircle size={14} />
+              Looks good
+            </div>
+          )}
         </div>
+
+        {/* Address */}
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-zinc-700">Address</label>
+          <label className="text-sm font-medium text-zinc-700">Address *</label>
           <input
             type="text"
             name="address"
             value={formData.address}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all"
-            required
+            onBlur={handleBlur}
+            className={getInputClass('address')}
+            placeholder="Enter your address"
+            disabled={isLoading}
           />
+          {touched.address && errors.address && (
+            <div className="flex items-center gap-2 text-xs text-red-600">
+              <AlertCircle size={14} />
+              {errors.address}
+            </div>
+          )}
+          {touched.address && !errors.address && formData.address && (
+            <div className="flex items-center gap-2 text-xs text-green-600">
+              <CheckCircle size={14} />
+              Looks good
+            </div>
+          )}
         </div>
+
+        {/* Occupation */}
         <div className="space-y-1.5">
           <label className="text-sm font-medium text-zinc-700">Occupation</label>
           <input
@@ -56,9 +150,20 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
             name="occupation"
             value={formData.occupation}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all"
+            onBlur={handleBlur}
+            className={getInputClass('occupation')}
+            placeholder="Your occupation (optional)"
+            disabled={isLoading}
           />
+          {touched.occupation && errors.occupation && (
+            <div className="flex items-center gap-2 text-xs text-red-600">
+              <AlertCircle size={14} />
+              {errors.occupation}
+            </div>
+          )}
         </div>
+
+        {/* Annual Income */}
         <div className="space-y-1.5">
           <label className="text-sm font-medium text-zinc-700">Annual Income</label>
           <input
@@ -66,9 +171,20 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
             name="annualIncome"
             value={formData.annualIncome}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all"
+            onBlur={handleBlur}
+            className={getInputClass('annualIncome')}
+            placeholder="e.g. 1,200,000 (optional)"
+            disabled={isLoading}
           />
+          {touched.annualIncome && errors.annualIncome && (
+            <div className="flex items-center gap-2 text-xs text-red-600">
+              <AlertCircle size={14} />
+              {errors.annualIncome}
+            </div>
+          )}
         </div>
+
+        {/* ID Proof */}
         <div className="space-y-1.5 md:col-span-2">
           <label className="text-sm font-medium text-zinc-700">ID Proof</label>
           <input
@@ -76,8 +192,10 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
             name="idProof"
             value={formData.idProof}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all"
-            placeholder="e.g. Citizenship or Passport Number"
+            onBlur={handleBlur}
+            className={getInputClass('idProof')}
+            placeholder="e.g. Citizenship or Passport Number (optional)"
+            disabled={isLoading}
           />
         </div>
       </div>
@@ -86,15 +204,17 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
         <button
           type="button"
           onClick={onCancel}
-          className="w-full rounded-xl border border-zinc-200 bg-white px-5 py-2.5 font-medium text-zinc-700 transition-all hover:bg-zinc-50 sm:w-auto"
+          disabled={isLoading}
+          className="w-full rounded-xl border border-zinc-200 bg-white px-5 py-2.5 font-medium text-zinc-700 transition-all hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="w-full rounded-xl bg-amber-500 px-5 py-2.5 font-semibold text-zinc-950 shadow-sm transition-all hover:bg-amber-600 sm:w-auto"
+          disabled={isLoading}
+          className="w-full rounded-xl bg-amber-500 px-5 py-2.5 font-semibold text-zinc-950 shadow-sm transition-all hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto"
         >
-          Save Changes
+          {isLoading ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
     </form>

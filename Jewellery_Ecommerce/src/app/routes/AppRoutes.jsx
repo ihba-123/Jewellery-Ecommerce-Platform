@@ -6,6 +6,9 @@ import Login from "../../features/storefront/pages/Login";
 import ProductPage from "../../features/storefront/pages/ProductPage";
 import SignupBusiness from "../../features/storefront/pages/SignupBusiness";
 import SignupCustomer from "../../features/storefront/pages/SignupCustomer";
+import OTPVerification from "../../features/storefront/pages/OTPVerification";
+import ForgotPasswordOTP from "../../features/storefront/pages/ForgotPasswordOTP";
+import ResetPassword from "../../features/storefront/pages/ResetPassword";
 
 import { AuthProvider } from "../../features/auth/context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
@@ -40,6 +43,9 @@ const AppRoutes = () => {
         <Route path="/login" element={<StorefrontLayout><Login /></StorefrontLayout>} />
         <Route path="/signup/customer" element={<StorefrontLayout><SignupCustomer /></StorefrontLayout>} />
         <Route path="/signup/business" element={<StorefrontLayout><SignupBusiness /></StorefrontLayout>} />
+        <Route path="/otp-verification" element={<StorefrontLayout><OTPVerification /></StorefrontLayout>} />
+        <Route path="/forgot-password-otp" element={<StorefrontLayout><ForgotPasswordOTP /></StorefrontLayout>} />
+        <Route path="/reset-password" element={<StorefrontLayout><ResetPassword /></StorefrontLayout>} />
 
         {/* ── Protected Dashboard ─────────────────────── */}
         <Route
