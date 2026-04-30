@@ -6,6 +6,7 @@ import Login from "../../features/storefront/pages/Login";
 import ProductPage from "../../features/storefront/pages/ProductPage";
 import SignupBusiness from "../../features/storefront/pages/SignupBusiness";
 import SignupCustomer from "../../features/storefront/pages/SignupCustomer";
+import SignupKaligard from "../../features/kaligard/pages/SignupKaligard";
 import OTPVerification from "../../features/storefront/pages/OTPVerification";
 import ForgotPasswordOTP from "../../features/storefront/pages/ForgotPasswordOTP";
 import ResetPassword from "../../features/storefront/pages/ResetPassword";
@@ -21,6 +22,12 @@ import TrackOrder from "../../features/dashboard/pages/TrackOrder";
 import MyReturns from "../../features/dashboard/pages/MyReturns";
 import MyCancellations from "../../features/dashboard/pages/MyCancellations";
 import RequestOrder from "../../features/dashboard/pages/RequestOrder";
+import KaligardDashboardLayout from "../../features/kaligard/dashboard/layout/KaligardDashboardLayout";
+import KaligardDashboardHome from "../../features/kaligard/dashboard/pages/KaligardDashboardHome";
+import KaligardProfile from "../../features/kaligard/dashboard/pages/KaligardProfile";
+import KaligardProducts from "../../features/kaligard/dashboard/pages/KaligardProducts";
+import KaligardDocuments from "../../features/kaligard/dashboard/pages/KaligardDocuments";
+import KaligardBankInfo from "../../features/kaligard/dashboard/pages/KaligardBankInfo";
 
 /* Shared storefront wrapper — avoids repeating the same div 6 times */
 const StorefrontLayout = ({ children }) => (
@@ -43,6 +50,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<StorefrontLayout><Login /></StorefrontLayout>} />
         <Route path="/signup/customer" element={<StorefrontLayout><SignupCustomer /></StorefrontLayout>} />
         <Route path="/signup/business" element={<StorefrontLayout><SignupBusiness /></StorefrontLayout>} />
+        <Route path="/signup/kaligard" element={<StorefrontLayout><SignupKaligard /></StorefrontLayout>} />
         <Route path="/otp-verification" element={<StorefrontLayout><OTPVerification /></StorefrontLayout>} />
         <Route path="/forgot-password-otp" element={<StorefrontLayout><ForgotPasswordOTP /></StorefrontLayout>} />
         <Route path="/reset-password" element={<StorefrontLayout><ResetPassword /></StorefrontLayout>} />
@@ -67,6 +75,25 @@ const AppRoutes = () => {
           <Route path="orders/:orderId/manage" element={<ManageOrder />} />
           <Route path="orders/:orderId/tracking" element={<TrackOrder />} />
           <Route path="request-order" element={<RequestOrder />} />
+        </Route>
+
+        {/* ── Kaligard Dashboard ──────────────────────── */}
+        <Route
+          path="/kaligard-dashboard"
+          element={
+            <ProtectedRoute>
+              <KaligardDashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Default: redirect /kaligard-dashboard → /kaligard-dashboard/home */}
+          <Route index element={<Navigate to="home" replace />} />
+
+          <Route path="home" element={<KaligardDashboardHome />} />
+          <Route path="profile" element={<KaligardProfile />} />
+          <Route path="products" element={<KaligardProducts />} />
+          <Route path="documents" element={<KaligardDocuments />} />
+          <Route path="bank-info" element={<KaligardBankInfo />} />
         </Route>
 
         {/* Fallback */}

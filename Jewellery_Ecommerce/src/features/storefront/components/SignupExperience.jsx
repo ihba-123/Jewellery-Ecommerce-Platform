@@ -8,6 +8,7 @@ import {
   Phone,
   Globe,
   MapPin,
+  Warehouse,
 } from "lucide-react";
 
 const inputBase =
@@ -38,12 +39,27 @@ const customerFields = [
   { name: "addressLine1", label: "Address Line 1", type: "text", span: "full" },
 ];
 
+const kaligardFields = [
+  { name: "factoryName", label: "Factory/Manufacturer Name", type: "text" },
+  { name: "contactPerson", label: "Contact Person", type: "text" },
+  { name: "email", label: "Business Email", type: "email" },
+  { name: "phoneNumber", label: "Phone Number", type: "tel" },
+  { name: "password", label: "Password", type: "password" },
+  { name: "confirmPassword", label: "Confirm Password", type: "password" },
+  { name: "registrationNumber", label: "GST/Registration Number", type: "text" },
+  { name: "specialization", label: "Specialization (e.g., Gold Designing, Manufacturing)", type: "text" },
+  { name: "website", label: "Website", type: "url" },
+  { name: "addressLine1", label: "Factory Address Line 1", type: "text", span: "full" },
+  { name: "city", label: "City", type: "text" },
+  { name: "country", label: "Country", type: "text" },
+];
+
 const isValidEmail = (v) => /^\S+@\S+\.\S+$/.test(v);
 
 export default function SignupExperience({ mode = "customer" }) {
   const navigate = useNavigate();
-  const activeMode = mode === "business" ? "business" : "customer";
-  const fields = activeMode === "business" ? businessFields : customerFields;
+  const activeMode = mode === "business" ? "business" : mode === "kaligard" ? "kaligard" : "customer";
+  const fields = activeMode === "business" ? businessFields : activeMode === "kaligard" ? kaligardFields : customerFields;
 
   const initialValues = useMemo(
     () => fields.reduce((a, c) => ({ ...a, [c.name]: "" }), {}),
@@ -131,6 +147,8 @@ export default function SignupExperience({ mode = "customer" }) {
             <h1 className="mt-2 text-2xl sm:text-3xl font-bold text-white">
               {activeMode === "business"
                 ? "Business Signup"
+                : activeMode === "kaligard"
+                ? "Kaligard Signup"
                 : "Customer Signup"}
             </h1>
             <p className="mt-1 text-sm text-white/70">
@@ -140,13 +158,15 @@ export default function SignupExperience({ mode = "customer" }) {
           <div className="hidden sm:grid place-items-center h-14 w-14 rounded-2xl bg-violet-100 text-violet-600">
             {activeMode === "business" ? (
               <Building2 size={26} />
+            ) : activeMode === "kaligard" ? (
+              <Warehouse size={26} />
             ) : (
               <User size={26} />
             )}
           </div>
         </div>
 
-        <div className="mb-6 grid grid-cols-2 rounded-2xl bg-white/6 p-1 gap-1 border border-white/10">
+        <div className="mb-6 grid grid-cols-3 rounded-2xl bg-white/6 p-1 gap-1 border border-white/10">
           <Link
             to="/signup/customer"
             onMouseDown={handleTabMouseDown}
@@ -160,6 +180,13 @@ export default function SignupExperience({ mode = "customer" }) {
             className={`rounded-xl px-4 py-2.5 text-center text-sm font-semibold transition-all duration-200 ${activeMode === "business" ? "bg-white shadow text-gray-900" : "text-white/65 hover:text-white/85"}`}
           >
             Business
+          </Link>
+          <Link
+            to="/signup/kaligard"
+            onMouseDown={handleTabMouseDown}
+            className={`rounded-xl px-4 py-2.5 text-center text-sm font-semibold transition-all duration-200 ${activeMode === "kaligard" ? "bg-[#d4af37]/20 text-[#ffeea0] border border-[#d4af37]/40" : "text-white/65 hover:text-white/85"}`}
+          >
+            Kaligard
           </Link>
         </div>
 
@@ -199,6 +226,8 @@ export default function SignupExperience({ mode = "customer" }) {
               ? "Creating Account..."
               : activeMode === "business"
                 ? "Create Business Account"
+                : activeMode === "kaligard"
+                ? "Create Kaligard Account"
                 : "Create Customer Account"}
           </button>
 

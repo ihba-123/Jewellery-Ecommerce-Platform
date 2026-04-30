@@ -117,27 +117,27 @@ const RequestOrderForm = ({ onSubmit }) => {
   };
 
   const getInputClass = (fieldName) => {
-    const baseClass = 'w-full rounded-lg border px-3 py-2.5 outline-none focus:ring-2 transition';
+    const baseClass = 'w-full rounded-lg border px-3 py-2.5 outline-none focus:ring-2 transition bg-white/10 text-white placeholder-white/40';
 
     if (touched[fieldName] && errors[fieldName]) {
-      return `${baseClass} border-red-300 focus:border-red-500 focus:ring-red-200`;
+      return `${baseClass} border-red-400/50 focus:border-red-400 focus:ring-red-500/30`;
     }
     if (touched[fieldName] && !errors[fieldName]) {
-      return `${baseClass} border-green-300 focus:border-green-500 focus:ring-green-200`;
+      return `${baseClass} border-green-400/50 focus:border-green-400 focus:ring-green-500/30`;
     }
-    return `${baseClass} border-zinc-300 focus:border-indigo-500 focus:ring-indigo-200`;
+    return `${baseClass} border-white/20 focus:border-yellow-300 focus:ring-yellow-500/30`;
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="rounded-xl border border-zinc-200 bg-white shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 px-5 py-4 sm:px-6">
-          <h2 className="text-2xl font-semibold text-zinc-800">Gold Items for Order</h2>
+      <div className="rounded-xl border border-white/15 bg-white/10 backdrop-blur-md shadow-lg">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/15 px-5 py-4 sm:px-6">
+          <h2 className="text-2xl font-semibold text-white">Gold Items for Order</h2>
           <button
             type="button"
             onClick={addGoldItem}
             disabled={isLoading}
-            className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-xl bg-gradient-to-r from-[#f5d97c] via-[#d4af37] to-[#a87b12] px-4 py-2 text-sm font-semibold text-black transition-colors hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             + Add Gold Item
           </button>
@@ -147,7 +147,7 @@ const RequestOrderForm = ({ onSubmit }) => {
           {/* Order Completion Date */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-medium text-zinc-700">Order Completion Date *</label>
+              <label className="mb-1 block text-sm font-medium text-white/80">Order Completion Date *</label>
               <input
                 type="date"
                 value={orderCompletionDate}
@@ -173,9 +173,9 @@ const RequestOrderForm = ({ onSubmit }) => {
 
           {/* Gold Items */}
           {goldItems.map((item, index) => (
-            <section key={item.id} className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 sm:p-5">
+            <section key={item.id} className="rounded-xl border border-white/15 bg-white/8 p-4 sm:p-5">
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-xl font-semibold text-zinc-800">Gold Item #{index + 1}</h3>
+                <h3 className="text-xl font-semibold text-white">Gold Item #{index + 1}</h3>
                 {goldItems.length > 1 && (
                   <button
                     type="button"
@@ -191,11 +191,11 @@ const RequestOrderForm = ({ onSubmit }) => {
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {/* Item Type */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-zinc-700">Item Type</label>
+                  <label className="mb-1 block text-sm font-medium text-white/80">Item Type</label>
                   <select
                     value={item.itemType}
                     onChange={(event) => updateGoldItem(item.id, 'itemType', event.target.value)}
-                    className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                    className="w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2.5 text-white outline-none focus:border-yellow-300 focus:ring-2 focus:ring-yellow-500/30"
                     disabled={isLoading}
                   >
                     <option>Necklace</option>
@@ -208,7 +208,7 @@ const RequestOrderForm = ({ onSubmit }) => {
 
                 {/* Net Weight */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-zinc-700">Net Weight (g) *</label>
+                  <label className="mb-1 block text-sm font-medium text-white/80">Net Weight (g) *</label>
                   <input
                     type="number"
                     step="0.01"
@@ -235,7 +235,7 @@ const RequestOrderForm = ({ onSubmit }) => {
 
                 {/* Stone Weight */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-zinc-700">Stone Weight (g)</label>
+                  <label className="mb-1 block text-sm font-medium text-white/80">Stone Weight (g)</label>
                   <input
                     type="number"
                     step="0.01"
@@ -256,11 +256,11 @@ const RequestOrderForm = ({ onSubmit }) => {
 
                 {/* Purity */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-zinc-700">Purity</label>
+                  <label className="mb-1 block text-sm font-medium text-white/80">Purity</label>
                   <select
                     value={item.purity}
                     onChange={(event) => updateGoldItem(item.id, 'purity', event.target.value)}
-                    className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                    className="w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2.5 text-white outline-none focus:border-yellow-300 focus:ring-2 focus:ring-yellow-500/30"
                     disabled={isLoading}
                   >
                     <option>22K (91.6%)</option>
@@ -271,7 +271,7 @@ const RequestOrderForm = ({ onSubmit }) => {
 
                 {/* Estimated Value */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-zinc-700">Estimated Value (NPR) *</label>
+                  <label className="mb-1 block text-sm font-medium text-white/80">Estimated Value (NPR) *</label>
                   <input
                     type="number"
                     step="0.01"
@@ -298,12 +298,12 @@ const RequestOrderForm = ({ onSubmit }) => {
 
                 {/* Serial Number */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-zinc-700">Serial Number (Optional)</label>
+                  <label className="mb-1 block text-sm font-medium text-white/80">Serial Number (Optional)</label>
                   <input
                     type="text"
                     value={item.serialNumber}
                     onChange={(event) => updateGoldItem(item.id, 'serialNumber', event.target.value)}
-                    className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                    className="w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2.5 text-white outline-none focus:border-yellow-300 focus:ring-2 focus:ring-yellow-500/30 placeholder-white/40"
                     placeholder="Serial Number (Optional)"
                     disabled={isLoading}
                   />
@@ -311,12 +311,12 @@ const RequestOrderForm = ({ onSubmit }) => {
 
                 {/* Description */}
                 <div className="md:col-span-2">
-                  <label className="mb-1 block text-sm font-medium text-zinc-700">Description (Optional)</label>
+                  <label className="mb-1 block text-sm font-medium text-white/80">Description (Optional)</label>
                   <textarea
                     rows="3"
                     value={item.description}
                     onChange={(event) => updateGoldItem(item.id, 'description', event.target.value)}
-                    className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                    className="w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2.5 text-white outline-none focus:border-yellow-300 focus:ring-2 focus:ring-yellow-500/30 placeholder-white/40"
                     placeholder="Description (Optional)"
                     disabled={isLoading}
                   />
@@ -325,11 +325,11 @@ const RequestOrderForm = ({ onSubmit }) => {
             </section>
           ))}
 
-          <div className="flex justify-end border-t border-zinc-200 pt-4">
+          <div className="flex justify-end border-t border-white/10 pt-4">
             <button
               type="submit"
               disabled={isLoading}
-              className="rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-lg bg-gradient-to-r from-[#f5d97c] via-[#d4af37] to-[#a87b12] px-6 py-3 text-sm font-semibold text-black transition-colors hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Submitting...' : 'Submit Order'}
             </button>

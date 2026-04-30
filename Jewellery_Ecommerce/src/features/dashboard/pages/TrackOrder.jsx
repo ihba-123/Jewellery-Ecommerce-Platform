@@ -9,9 +9,9 @@ const TrackOrder = () => {
 
   if (!order) {
     return (
-      <section className="mx-auto max-w-4xl rounded-xl border border-zinc-200 bg-white p-6 text-zinc-700 shadow-sm">
+      <section className="mx-auto max-w-4xl rounded-xl border border-white/15 bg-white/10 backdrop-blur-md p-6 text-white/80 shadow-lg">
         <p className="mb-4 text-lg font-medium">Order not found.</p>
-        <Link to="/dashboard/orders" className="text-cyan-600 hover:text-cyan-700">
+        <Link to="/dashboard/orders" className="text-yellow-300 hover:text-yellow-200">
           Back to My Orders
         </Link>
       </section>
@@ -23,7 +23,7 @@ const TrackOrder = () => {
       <div className="flex justify-end">
         <Link
           to={`/dashboard/orders/${order.id}/manage`}
-          className="text-sm font-medium text-cyan-600 hover:text-cyan-700"
+          className="text-sm font-medium text-yellow-300 hover:text-yellow-200"
         >
           Back to Order Details
         </Link>

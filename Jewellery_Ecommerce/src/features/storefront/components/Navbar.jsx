@@ -160,7 +160,7 @@ const Navbar = () => {
               <div className="absolute right-0 top-[calc(100%+5px)] w-42 overflow-hidden rounded-xl
                 border border-white/10 bg-[#1c1445]/96 shadow-[0_8px_28px_rgba(0,0,0,0.5)] backdrop-blur-xl
                 animate-[fadeSlide_0.14s_ease-out]">
-                {[['As Customer', '/signup/customer'], ['As Business', '/signup/business']].map(([label, path]) => (
+                {[['As Customer', '/signup/customer'], ['As Business', '/signup/business'], ['As Kaligard', '/signup/kaligard']].map(([label, path]) => (
                   <button key={path} type="button"
                     style={{ minHeight: 'unset', minWidth: 'unset' }}
                     onClick={() => { setSignupOpen(false); navigate(path) }}
@@ -240,6 +240,7 @@ const Navbar = () => {
             {[
               { label: 'Customer', path: '/signup/customer' },
               { label: 'Business', path: '/signup/business' },
+              { label: 'Kaligard', path: '/signup/kaligard' },
             ].map(({ label, path }) => (
               <button key={path} type="button"
                 style={{ minHeight: 'unset', minWidth: 'unset' }}

@@ -31,7 +31,7 @@ const MyProfile = () => {
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-6">
-      <div className="flex min-h-[26rem] flex-col items-center rounded-2xl border border-zinc-100 bg-white p-4 shadow-sm sm:p-6 lg:p-8">
+      <div className="flex min-h-[26rem] flex-col items-center rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md p-4 shadow-lg sm:p-6 lg:p-8">
         
         {/* Top Centered User Picture */}
         <ProfileAvatar 
@@ -44,7 +44,7 @@ const MyProfile = () => {
         {viewMode === 'view' && (
           <div className="flex w-full flex-col items-center animate-in fade-in duration-500">
             {/* Name and Basic Role */}
-            <h2 className="mt-5 text-h3 font-bold tracking-tight text-zinc-900">{dummyUser.fullName}</h2>
+            <h2 className="mt-5 text-h3 font-bold tracking-tight text-white">{dummyUser.fullName}</h2>
             <p className="mt-2 rounded-full border border-amber-200/50 bg-amber-50 px-3 py-1 text-small font-medium text-amber-600">
               Customer Account
             </p>
@@ -52,7 +52,7 @@ const MyProfile = () => {
             {/* User Details Grid */}
             <ProfileDetails user={dummyUser} />
             
-            <div className="my-6 h-px w-full bg-zinc-100" />
+            <div className="my-6 h-px w-full bg-white/10" />
             
             {/* Action Buttons */}
             <ProfileActions 
