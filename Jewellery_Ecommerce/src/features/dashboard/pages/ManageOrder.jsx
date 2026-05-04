@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { FileText, Gem } from 'lucide-react';
 import { getAllOrders } from '../orders/data/ordersRepository';
 
 const ManageOrder = () => {
@@ -29,10 +30,7 @@ const ManageOrder = () => {
       <div className="rounded-lg border border-white/15 bg-white/10 backdrop-blur-md shadow-lg">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/15 p-4 sm:p-5">
           <div className="flex items-center gap-3">
-            <svg className="h-4 w-4 text-white/80 sm:h-5 sm:w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <rect x="4" y="4" width="16" height="16" rx="2" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 9h8M8 13h5" />
-            </svg>
+            <FileText className="h-4 w-4 text-white/80 sm:h-5 sm:w-5" />
             <p className="text-base font-semibold text-white sm:text-lg">{order.storeName}</p>
             <button className="text-sm font-medium text-yellow-300 hover:text-yellow-200 sm:text-base">Chat with Seller</button>
           </div>
@@ -59,9 +57,7 @@ const ManageOrder = () => {
 
           <div className="mt-5 grid grid-cols-1 gap-4 border-b border-white/10 pb-5 md:grid-cols-[88px_2fr_0.9fr_0.7fr_1fr] md:items-start">
             <div className="flex h-16 w-16 items-center justify-center rounded border border-white/20 bg-white/10 sm:h-20 sm:w-20">
-              <svg className="h-8 w-8 text-yellow-300 sm:h-10 sm:w-10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M7.2 3h9.6l4 6.2L12 21 3.2 9.2 7.2 3zm.9 1.8L5.5 8.8h4.9l2.2-4H8.1zm7.8 0h-4.5l2.2 4h4.9l-2.6-4h0zM12 18l6.1-7.4h-3.8L12 18zm0 0l-2.3-7.4H5.9L12 18z" />
-              </svg>
+              <Gem className="h-8 w-8 text-yellow-300 sm:h-10 sm:w-10" />
             </div>
 
             <div>

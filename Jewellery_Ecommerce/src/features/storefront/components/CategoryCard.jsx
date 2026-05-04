@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
 
 const CategoryCard = ({ category }) => {
   const fallbackTaglineByCategory = {
@@ -112,15 +113,7 @@ const CategoryCard = ({ category }) => {
             }}
           >
             Explore
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              style={{ width: '0.7rem', height: '0.7rem', transition: 'transform 0.4s ease' }}
-              className="group-hover:translate-x-0.5"
-            >
-              <path fillRule="evenodd" d="M10.293 4.293a1 1 0 0 1 1.414 0l5 5a1 1 0 0 1 0 1.414l-5 5a1 1 0 1 1-1.414-1.414L13.586 11H4a1 1 0 1 1 0-2h9.586l-3.293-3.293a1 1 0 0 1 0-1.414Z" clipRule="evenodd" />
-            </svg>
+            <ArrowRight style={{ width: '0.7rem', height: '0.7rem', transition: 'transform 0.4s ease' }} className="group-hover:translate-x-0.5" />
           </span>
         </div>
       </div>

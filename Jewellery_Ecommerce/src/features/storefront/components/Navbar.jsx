@@ -122,9 +122,7 @@ const Navbar = () => {
 
         {/* Logo */}
         <Link to="/" className="flex shrink-0 items-center gap-2 mr-4">
-          <div className="h-6 w-6 rounded-full shadow-[0_2px_8px_rgba(212,175,55,0.4)]"
-            style={{ background: 'radial-gradient(circle at 35% 35%, #f4e08a, #b8872a)' }} />
-          <span className="hidden text-[1.4rem] font-extrabold tracking-wide text-white/92 sm:inline"
+          <span className=" text-[1.4rem] font-extrabold tracking-wide text-white/92 sm:inline"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Jewellery Store
           </span>

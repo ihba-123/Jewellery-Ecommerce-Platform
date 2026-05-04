@@ -23,10 +23,12 @@ import MyReturns from "../../features/dashboard/pages/MyReturns";
 import MyCancellations from "../../features/dashboard/pages/MyCancellations";
 import RequestOrder from "../../features/dashboard/pages/RequestOrder";
 import KaligardDashboardLayout from "../../features/kaligard/dashboard/layout/KaligardDashboardLayout";
-import KaligardDashboardHome from "../../features/kaligard/dashboard/pages/KaligardDashboardHome";
 import KaligardProfile from "../../features/kaligard/dashboard/pages/KaligardProfile";
 import KaligardProducts from "../../features/kaligard/dashboard/pages/KaligardProducts";
+import KaligardListedProducts from "../../features/kaligard/dashboard/pages/KaligardListedProducts";
+import KaligardOrders from "../../features/kaligard/dashboard/pages/KaligardOrders";
 import KaligardDocuments from "../../features/kaligard/dashboard/pages/KaligardDocuments";
+import DocumentDetail from "../../features/kaligard/dashboard/pages/DocumentDetail";
 import KaligardBankInfo from "../../features/kaligard/dashboard/pages/KaligardBankInfo";
 
 /* Shared storefront wrapper — avoids repeating the same div 6 times */
@@ -86,13 +88,15 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          {/* Default: redirect /kaligard-dashboard → /kaligard-dashboard/home */}
-          <Route index element={<Navigate to="home" replace />} />
+          {/* Default: redirect /kaligard-dashboard → /kaligard-dashboard/profile */}
+          <Route index element={<Navigate to="profile" replace />} />
 
-          <Route path="home" element={<KaligardDashboardHome />} />
           <Route path="profile" element={<KaligardProfile />} />
           <Route path="products" element={<KaligardProducts />} />
+          <Route path="listed-products" element={<KaligardListedProducts />} />
+          <Route path="orders" element={<KaligardOrders />} />
           <Route path="documents" element={<KaligardDocuments />} />
+          <Route path="documents/:documentType" element={<DocumentDetail />} />
           <Route path="bank-info" element={<KaligardBankInfo />} />
         </Route>
 

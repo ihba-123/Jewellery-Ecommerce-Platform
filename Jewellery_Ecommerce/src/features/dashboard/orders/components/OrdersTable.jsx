@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Gem } from 'lucide-react';
 
 const formatDate = (isoDate) => {
   const date = new Date(isoDate);
@@ -35,9 +36,7 @@ const OrdersTable = ({ orders }) => {
               <td className="px-6 py-5">
                 <div className="flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-md border border-white/20 bg-white/10">
-                    <svg className="h-6 w-6 text-yellow-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M7.2 3h9.6l4 6.2L12 21 3.2 9.2 7.2 3zm.9 1.8L5.5 8.8h4.9l2.2-4H8.1zm7.8 0h-4.5l2.2 4h4.9l-2.6-4h0zM12 18l6.1-7.4h-3.8L12 18zm0 0l-2.3-7.4H5.9L12 18z" />
-                    </svg>
+                    <Gem className="h-6 w-6 text-yellow-300" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-white">{order.items[0].name}</p>

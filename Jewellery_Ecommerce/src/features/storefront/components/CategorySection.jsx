@@ -1,4 +1,5 @@
 import CategoryCard from "./CategoryCard";
+import { Diamond } from "lucide-react";
 
 const CategorySection = ({ categories }) => {
   return (
@@ -16,23 +17,11 @@ const CategorySection = ({ categories }) => {
         <div className="relative mb-14 md:mb-18 flex flex-col items-center text-center">
           {/* Pill badge */}
           <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/25 bg-[#d4af37]/8 px-3.5 py-1">
-            <svg
-              viewBox="0 0 12 12"
-              fill="currentColor"
-              className="h-2 w-2 text-[#d4af37]/70"
-            >
-              <path d="M6 0 L12 6 L6 12 L0 6 Z" />
-            </svg>
+            <Diamond className="h-2 w-2 text-[#d4af37]/70" />
             <span className="text-[0.62rem] font-semibold uppercase tracking-[0.35em] text-[#f1e2b2]/70">
               Signature Collections
             </span>
-            <svg
-              viewBox="0 0 12 12"
-              fill="currentColor"
-              className="h-2 w-2 text-[#d4af37]/70"
-            >
-              <path d="M6 0 L12 6 L6 12 L0 6 Z" />
-            </svg>
+            <Diamond className="h-2 w-2 text-[#d4af37]/70" />
           </span>
 
           {/* Heading */}
@@ -58,13 +47,7 @@ const CategorySection = ({ categories }) => {
           {/* Divider */}
           <div className="mt-4 mb-5 flex items-center gap-2.5">
             <div className="h-px w-8 bg-gradient-to-r from-transparent to-[#d4af37]/40" />
-            <svg
-              viewBox="0 0 12 12"
-              fill="currentColor"
-              className="h-2 w-2 text-[#d4af37]/50"
-            >
-              <path d="M6 0 L12 6 L6 12 L0 6 Z" />
-            </svg>
+            <Diamond className="h-2 w-2 text-[#d4af37]/50" />
             <div className="h-px w-8 bg-gradient-to-l from-transparent to-[#d4af37]/40" />
           </div>
 

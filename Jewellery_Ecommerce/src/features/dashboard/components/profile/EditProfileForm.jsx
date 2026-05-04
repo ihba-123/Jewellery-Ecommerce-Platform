@@ -69,28 +69,28 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
   };
 
   const getInputClass = (fieldName) => {
-    const baseClass = 'w-full px-4 py-2.5 bg-zinc-50 border rounded-xl focus:ring-2 focus:border-amber-500 outline-none transition-all';
+    const baseClass = 'w-full px-4 py-2.5 bg-white/10 border rounded-xl focus:ring-2 focus:border-amber-500 outline-none transition-all text-white placeholder-white/40';
 
     if (touched[fieldName] && errors[fieldName]) {
-      return `${baseClass} border-red-300 focus:ring-red-500/20`;
+      return `${baseClass} border-red-400/50 focus:ring-red-500/30`;
     }
     if (touched[fieldName] && !errors[fieldName]) {
-      return `${baseClass} border-green-300 focus:ring-green-500/20`;
+      return `${baseClass} border-green-400/50 focus:ring-green-500/30`;
     }
-    return `${baseClass} border-zinc-200 focus:ring-amber-500/20`;
+    return `${baseClass} border-white/20 focus:ring-amber-500/30`;
   };
 
   return (
     <form onSubmit={handleSubmit} className="w-full mt-6 space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
       <div className="mb-5 text-center">
-        <h3 className="text-h4 font-bold text-zinc-900">Edit Profile</h3>
-        <p className="text-zinc-500 text-sm mt-1">Update your personal information</p>
+        <h3 className="text-h4 font-bold text-white">Edit Profile</h3>
+        <p className="text-white/60 text-sm mt-1">Update your personal information</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-5">
         {/* Full Name */}
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-zinc-700">Full Name *</label>
+          <label className="text-sm font-medium text-white/80">Full Name *</label>
           <input
             type="text"
             name="fullName"
@@ -117,7 +117,7 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
 
         {/* Address */}
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-zinc-700">Address *</label>
+          <label className="text-sm font-medium text-white/80">Address *</label>
           <input
             type="text"
             name="address"
@@ -200,19 +200,19 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-end gap-3 border-t border-zinc-100 pt-5 sm:flex-row">
+      <div className="flex flex-col items-center justify-end gap-3 border-t border-white/10 pt-5 sm:flex-row">
         <button
           type="button"
           onClick={onCancel}
           disabled={isLoading}
-          className="w-full rounded-xl border border-zinc-200 bg-white px-5 py-2.5 font-medium text-zinc-700 transition-all hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto"
+          className="w-full rounded-xl border border-white/20 bg-white/10 px-5 py-2.5 font-medium text-white transition-all hover:bg-white/15 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full rounded-xl bg-amber-500 px-5 py-2.5 font-semibold text-zinc-950 shadow-sm transition-all hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto"
+          className="w-full rounded-xl bg-gradient-to-r from-[#f5d97c] via-[#d4af37] to-[#a87b12] px-5 py-2.5 font-semibold text-[#231806] shadow-sm transition-all hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto"
         >
           {isLoading ? 'Saving...' : 'Save Changes'}
         </button>

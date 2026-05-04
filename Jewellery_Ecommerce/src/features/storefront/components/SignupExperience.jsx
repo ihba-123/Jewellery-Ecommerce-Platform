@@ -40,18 +40,16 @@ const customerFields = [
 ];
 
 const kaligardFields = [
-  { name: "factoryName", label: "Factory/Manufacturer Name", type: "text" },
+  { name: "factoryName", label: "Factory Name", type: "text" },
   { name: "contactPerson", label: "Contact Person", type: "text" },
   { name: "email", label: "Business Email", type: "email" },
   { name: "phoneNumber", label: "Phone Number", type: "tel" },
   { name: "password", label: "Password", type: "password" },
   { name: "confirmPassword", label: "Confirm Password", type: "password" },
   { name: "registrationNumber", label: "GST/Registration Number", type: "text" },
-  { name: "specialization", label: "Specialization (e.g., Gold Designing, Manufacturing)", type: "text" },
+  { name: "specialization", label: "Specialization", type: "text" },
   { name: "website", label: "Website", type: "url" },
-  { name: "addressLine1", label: "Factory Address Line 1", type: "text", span: "full" },
-  { name: "city", label: "City", type: "text" },
-  { name: "country", label: "Country", type: "text" },
+  { name: "city", label: "Address", type: "text" },
 ];
 
 const isValidEmail = (v) => /^\S+@\S+\.\S+$/.test(v);
@@ -151,19 +149,8 @@ export default function SignupExperience({ mode = "customer" }) {
                 ? "Kaligard Signup"
                 : "Customer Signup"}
             </h1>
-            <p className="mt-1 text-sm text-white/70">
-              Modern, secure and responsive signup experience.
-            </p>
           </div>
-          <div className="hidden sm:grid place-items-center h-14 w-14 rounded-2xl bg-violet-100 text-violet-600">
-            {activeMode === "business" ? (
-              <Building2 size={26} />
-            ) : activeMode === "kaligard" ? (
-              <Warehouse size={26} />
-            ) : (
-              <User size={26} />
-            )}
-          </div>
+         
         </div>
 
         <div className="mb-6 grid grid-cols-3 rounded-2xl bg-white/6 p-1 gap-1 border border-white/10">
@@ -205,7 +192,6 @@ export default function SignupExperience({ mode = "customer" }) {
                   onChange={onChange}
                   onBlur={onBlur}
                   className={getClass(field.name)}
-                  placeholder={`Enter ${field.label.toLowerCase()}`}
                   disabled={isSubmitting}
                 />
                 {touched[field.name] && errors[field.name] && (

@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { Menu } from 'lucide-react';
 
 const getPageTitle = (pathname) => {
   if (pathname.includes('/dashboard/orders/') && pathname.endsWith('/tracking')) {
@@ -43,12 +44,11 @@ const Topbar = ({ onMenuClick }) => {
       style={{ minHeight: 'var(--dashboard-topbar-height)' }}
     >
       <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-        <button 
+        <button
           onClick={onMenuClick}
           className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 focus:outline-none md:hidden"
         >
-          {/* Mobile menu icon placeholder */}
-          <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+          <Menu className="w-7 h-7" />
         </button>
         <h1 className="min-w-0 truncate text-white text-h4 font-semibold ">{title}</h1>
       </div>

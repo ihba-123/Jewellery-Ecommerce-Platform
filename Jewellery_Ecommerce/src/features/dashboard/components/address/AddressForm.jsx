@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { AlertCircle, CheckCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle, Edit, Plus } from 'lucide-react';
 
 const AddressForm = ({ initialData, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -100,12 +100,12 @@ const AddressForm = ({ initialData, onSubmit, onCancel }) => {
       <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-white sm:text-xl">
         {initialData ? (
           <>
-            <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+            <Edit className="w-5 h-5 text-yellow-300" />
             Edit Address
           </>
         ) : (
           <>
-            <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+            <Plus className="w-5 h-5 text-yellow-300" />
             Add New Address
           </>
         )}

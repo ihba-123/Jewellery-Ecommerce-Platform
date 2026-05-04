@@ -1,3 +1,5 @@
+import { Check, Truck } from 'lucide-react';
+
 const STAGES = ['Processing', 'Packed', 'Shipped', 'Delivered'];
 
 const STATUS_TO_STAGE = {
@@ -17,11 +19,7 @@ const getCurrentStageIndex = (order) => {
 
 const StageIcon = ({ completed }) => {
   if (completed) {
-    return (
-      <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12.5l4.2 4.2L19 7" />
-      </svg>
-    );
+    return <Check className="h-5 w-5 text-white" strokeWidth={3} />;
   }
 
   return <span className="h-2 w-2 rounded-full bg-white/40" />;
@@ -40,12 +38,7 @@ const OrderTrackingDetails = ({ order }) => {
       <div className="rounded-lg border border-white/15 bg-white/10 backdrop-blur-md shadow-lg">
         <div className="grid grid-cols-1 gap-4 border-b border-white/15 p-5 md:grid-cols-[90px_1.5fr_1fr]">
           <div className="flex h-16 w-16 items-center justify-center rounded-md border border-white/20 bg-white/10">
-            <svg className="h-8 w-8 text-white/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <rect x="3" y="7" width="13" height="10" rx="2" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 10h3l2 2v3h-5" />
-              <circle cx="8" cy="18" r="1.5" />
-              <circle cx="18" cy="18" r="1.5" />
-            </svg>
+            <Truck className="h-8 w-8 text-white/80" />
           </div>
 
           <div>
@@ -111,9 +104,7 @@ const OrderTrackingDetails = ({ order }) => {
                   <div className="relative flex justify-center">
                     <div className={`z-10 flex h-6 w-6 items-center justify-center rounded-full ${completed ? 'bg-yellow-500' : 'bg-white/20'}`}>
                       {completed ? (
-                        <svg className="h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12.5l4.2 4.2L19 7" />
-                        </svg>
+                        <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
                       ) : null}
                     </div>
                     {index !== trackingEvents.length - 1 && <span className="absolute top-6 h-10 w-0.5 bg-white/20" />}

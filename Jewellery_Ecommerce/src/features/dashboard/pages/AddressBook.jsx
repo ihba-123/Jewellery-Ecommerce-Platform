@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Home } from 'lucide-react';
 import AddressCard from '../components/address/AddressCard';
 import AddressForm from '../components/address/AddressForm';
 
@@ -100,9 +101,9 @@ const AddressBook = () => {
         >
           {addresses.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2.5rem 1rem', color: 'rgba(255, 255, 255, 0.6)' }}>
-              <svg style={{ width: '2.5rem', height: '2.5rem', margin: '0 auto 0.75rem', color: 'rgba(255, 255, 255, 0.4)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.75rem' }}>
+                <Home style={{ width: '2.5rem', height: '2.5rem', color: 'rgba(255, 255, 255, 0.4)' }} />
+              </div>
               <p style={{ fontSize: '0.82rem' }}>No addresses found. Add a new address to get started.</p>
             </div>
           ) : (
