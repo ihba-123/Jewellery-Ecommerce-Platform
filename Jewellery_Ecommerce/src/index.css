@@ -48,9 +48,18 @@ img,
 video,
 canvas {
   display: block;
-  width: 100%;
+  max-width: 100%;
   height: auto;
   object-fit: cover;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 

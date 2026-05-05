@@ -1,38 +1,54 @@
-import { NavLink } from 'react-router-dom';
-import { User, Package, Home, LogOut, Factory, X, FileText, Building, ShoppingCart, ListChecks } from 'lucide-react';
-import { useAuth } from '../../../auth/hooks/useAuth';
+import { NavLink } from "react-router-dom";
+import {
+  User,
+  Package,
+  Home,
+  LogOut,
+  Factory,
+  X,
+  FileText,
+  Building,
+  ShoppingCart,
+  ListChecks,
+} from "lucide-react";
+import { useAuth } from "../../../auth/hooks/useAuth";
 const KaligardSidebar = ({ isOpen, setIsOpen }) => {
   const { logout } = useAuth();
 
   const menuItems = [
     {
-      name: 'Factory Profile',
-      path: '/kaligard-dashboard/profile',
+      name: "Factory Profile",
+      path: "/kaligard-dashboard/profile",
       icon: <User className="h-6 w-6 shrink-0" />,
       children: [
-        { name: 'Documents', path: '/kaligard-dashboard/documents', icon: <FileText className="h-4 w-4 shrink-0" /> },
-        { name: 'Bank Information', path: '/kaligard-dashboard/bank-info', icon: <Building className="h-4 w-4 shrink-0" /> }
-      ]
-    },
-    {
-      name: 'My Products',
-      path: '/kaligard-dashboard/products',
-      icon: <Package className="h-6 w-6 shrink-0" />
-    },
         {
-      name: 'Orders',
-      path: '/kaligard-dashboard/orders',
-      icon: <ShoppingCart className="h-6 w-6 shrink-0" />
+          name: "Documents",
+          path: "/kaligard-dashboard/documents",
+          icon: <FileText className="h-4 w-4 shrink-0" />,
+        },
+        {
+          name: "Bank Information",
+          path: "/kaligard-dashboard/bank-info",
+          icon: <Building className="h-4 w-4 shrink-0" />,
+        },
+      ],
     },
     {
-      name: 'List Products',
-      path: '/kaligard-dashboard/listed-products',
-      icon: <ListChecks className="h-6 w-6 shrink-0" />
+      name: "My Products",
+      path: "/kaligard-dashboard/products",
+      icon: <Package className="h-6 w-6 shrink-0" />,
     },
-
+    {
+      name: "Order Requests",
+      path: "/kaligard-dashboard/orders",
+      icon: <ShoppingCart className="h-6 w-6 shrink-0" />,
+    },
+    {
+      name: "List Products",
+      path: "/kaligard-dashboard/listed-products",
+      icon: <ListChecks className="h-6 w-6 shrink-0" />,
+    },
   ];
-
-
 
   const handleLinkClick = () => {
     if (setIsOpen) setIsOpen(false);
@@ -41,8 +57,8 @@ const KaligardSidebar = ({ isOpen, setIsOpen }) => {
   const navCls = ({ isActive }) =>
     `group flex min-h-9 items-center gap-2.5 rounded-xl px-3 py-2 text-md transition-all duration-200 ${
       isActive
-        ? 'bg-white/20 text-white shadow-[0_4px_16px_rgba(255,255,255,0.1)] ring-1 ring-white/20'
-        : 'text-white/80 hover:bg-white/10 hover:text-white'
+        ? "bg-white/20 text-white shadow-[0_4px_16px_rgba(255,255,255,0.1)] ring-1 ring-white/20"
+        : "text-white/80 hover:bg-white/10 hover:text-white"
     }`;
 
   const Overlay = () =>
@@ -56,21 +72,29 @@ const KaligardSidebar = ({ isOpen, setIsOpen }) => {
 
   return (
     <>
-      <Overlay />
+      <Overlay className="z-100" />
 
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-[100dvh] w-[min(15rem,84vw)] flex-col overflow-y-auto border-r border-white/15 text-white shadow-2xl transition-transform duration-300 md:translate-x-0 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed left-0 top-0 z-100 flex h-dvh w-[min(15rem,84vw)] flex-col overflow-y-auto border-r border-white/15 text-white shadow-2xl transition-transform duration-300 md:translate-x-0 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
-        style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+        style={{
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        }}
       >
         {/* ── Header ────────────────────────────────────── */}
         <div className="relative border-b border-white/15 px-4 py-3">
           <button
-            className="absolute -right-0 top-3  rounded-lg p-1 text-white/70 hover:bg-white/10 hover:text-white md:hidden"
+            className="absolute right-0 top-3 rounded-lg p-1 text-white/70 hover:bg-white/10 hover:text-white md:hidden"
             onClick={() => setIsOpen(false)}
             aria-label="Close sidebar"
-            style={{ minHeight: 'unset', minWidth: 'unset', border: 'none', background: 'none', cursor: 'pointer' }}
+            style={{
+              minHeight: "unset",
+              minWidth: "unset",
+              border: "none",
+              background: "none",
+              cursor: "pointer",
+            }}
           >
             <X className="h-8 w-8" />
           </button>
@@ -107,12 +131,16 @@ const KaligardSidebar = ({ isOpen, setIsOpen }) => {
                         className={({ isActive }) =>
                           `flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm transition-all duration-200 ${
                             isActive
-                              ? 'text-white bg-white/15 border-l-2 border-yellow-300'
-                              : 'text-white/60 hover:text-white hover:bg-white/8'
+                              ? "text-white bg-white/15 border-l-2 border-yellow-300"
+                              : "text-white/60 hover:text-white hover:bg-white/8"
                           }`
                         }
                       >
-                        {child.icon && <span className="flex h-4 w-4 items-center justify-center shrink-0">{child.icon}</span>}
+                        {child.icon && (
+                          <span className="flex h-4 w-4 items-center justify-center shrink-0">
+                            {child.icon}
+                          </span>
+                        )}
                         <span className="truncate">{child.name}</span>
                       </NavLink>
                     ))}
@@ -137,9 +165,12 @@ const KaligardSidebar = ({ isOpen, setIsOpen }) => {
           </NavLink>
 
           <button
-            onClick={() => { logout(); handleLinkClick(); }}
+            onClick={() => {
+              logout();
+              handleLinkClick();
+            }}
             className="flex w-full min-h-9 items-center gap-2.5 rounded-xl bg-white/10 px-3 py-2 text-sm text-white/80 transition-all duration-200 hover:bg-white/15 hover:text-white"
-            style={{ border: 'none', cursor: 'pointer' }}
+            style={{ border: "none", cursor: "pointer" }}
           >
             <span className="flex h-5 w-5 items-center justify-center shrink-0">
               <LogOut className="h-5 w-5" />

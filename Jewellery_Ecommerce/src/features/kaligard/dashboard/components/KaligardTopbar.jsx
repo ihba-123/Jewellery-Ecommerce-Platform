@@ -1,18 +1,26 @@
-import { useLocation } from 'react-router-dom';
-import { Menu } from 'lucide-react';
+import { useLocation } from "react-router-dom";
+import { Menu } from "lucide-react";
 
 const getPageTitle = (pathname) => {
-  const path = pathname.split('/').pop() || 'kaligard-dashboard';
+  const path = pathname.split("/").pop() || "kaligard-dashboard";
   switch (path) {
-    case 'kaligard-dashboard':
-    case 'home': return 'Dashboard';
-    case 'profile': return 'Factory Profile';
-    case 'products': return 'My Products';
-    case 'listed-products': return 'Listed Products';
-    case 'orders': return 'Orders';
-    case 'documents': return 'Documents';
-    case 'bank-info': return 'Bank Information';
-    default: return 'Kaligard Dashboard';
+    case "kaligard-dashboard":
+    case "home":
+      return "Dashboard";
+    case "profile":
+      return "Factory Profile";
+    case "products":
+      return "My Products";
+    case "listed-products":
+      return "My Inventory";
+    case "orders":
+      return "Order Requests";
+    case "documents":
+      return "Documents";
+    case "bank-info":
+      return "Bank Information";
+    default:
+      return "Kaligard Dashboard";
   }
 };
 
@@ -22,8 +30,8 @@ const KaligardTopbar = ({ onMenuClick }) => {
 
   return (
     <header
-      className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between bg-white/10 px-md py-sm shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] backdrop-blur-md md:pl-[var(--dashboard-sidebar-width)]"
-      style={{ minHeight: 'var(--dashboard-topbar-height)' }}
+      className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between bg-white/10 px-md py-sm shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] backdrop-blur-md md:pl-(--dashboard-sidebar-width)"
+      style={{ minHeight: "var(--dashboard-topbar-height)" }}
     >
       <div className="flex min-w-0 items-center gap-3 sm:gap-4">
         <button
@@ -32,11 +40,12 @@ const KaligardTopbar = ({ onMenuClick }) => {
         >
           <Menu className="w-7 h-7" />
         </button>
-        <h1 className="min-w-0 truncate text-white text-h4 font-semibold">{title}</h1>
+        <h1 className="min-w-0 truncate text-white text-h4 font-semibold">
+          {title}
+        </h1>
       </div>
 
-      <div className="flex items-center gap-4">
-      </div>
+      <div className="flex items-center gap-4"></div>
     </header>
   );
 };

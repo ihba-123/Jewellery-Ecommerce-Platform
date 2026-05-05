@@ -1,275 +1,121 @@
-import { useState, useMemo } from 'react';
-import { ShoppingCart, Trash2 } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Search, MoreHorizontal, CheckCircle2, Clock3, Truck, XCircle } from 'lucide-react';
 import { useVendorOrders } from '../../context/VendorOrderContext';
 
 const KaligardOrders = () => {
-  const { vendorOrders, addVendorOrder, cancelOrder } = useVendorOrders();
+  const { vendorOrders } = useVendorOrders();
+  const [query, setQuery] = useState('');
 
-  const [allListedProducts] = useState([
-    { id: 101, vendorName: "Golden Designs", name: "Premium Gold Sheet", price: "₹5,000", category: "Materials", quantity: 50, imageUrl: null },
-    { id: 102, vendorName: "Diamond Corp", name: "Diamond Dust", price: "₹8,000", category: "Materials", quantity: 20, imageUrl: null },
-    { id: 103, vendorName: "Silver Touch", name: "Silver Ingot", price: "₹3,000", category: "Materials", quantity: 100, imageUrl: null }
-  ]);
+  const filteredOrders = useMemo(() => {
+    const term = query.trim().toLowerCase();
 
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [orderQuantity, setOrderQuantity] = useState(1);
-  const [deliveryAddress, setDeliveryAddress] = useState('');
-  const [specialNotes, setSpecialNotes] = useState('');
-  const [showOrderForm, setShowOrderForm] = useState(false);
+    if (!term) return vendorOrders;
 
-  const stats = useMemo(() => {
-    return {
-      totalOrders: vendorOrders.length,
-      pending: vendorOrders.filter(o => o.status === 'Pending').length,
-      confirmed: vendorOrders.filter(o => o.status === 'Confirmed').length,
-      shipped: vendorOrders.filter(o => o.status === 'Shipped').length
-    };
-  }, [vendorOrders]);
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Pending': return 'bg-yellow-500/20 text-yellow-200';
-      case 'Confirmed': return 'bg-blue-500/20 text-blue-200';
-      case 'Shipped': return 'bg-green-500/20 text-green-200';
-      case 'Delivered': return 'bg-green-500/20 text-green-200';
-      default: return 'bg-gray-500/20 text-gray-200';
-    }
-  };
-
-  const handlePlaceOrder = (e) => {
-    e.preventDefault();
-    if (!selectedProduct || orderQuantity <= 0 || !deliveryAddress.trim()) {
-      alert('Please fill all required fields');
-      return;
-    }
-
-    const totalPrice = parseInt(selectedProduct.price.replace(/[^0-9]/g, '')) * orderQuantity;
-
-    addVendorOrder({
-      vendorName: selectedProduct.vendorName,
-      productName: selectedProduct.name,
-      quantity: orderQuantity,
-      price: selectedProduct.price,
-      totalPrice: `₹${totalPrice.toLocaleString('en-IN')}`,
-      status: 'Pending'
+    return vendorOrders.filter((order) => {
+      return [order.id, order.vendorName, order.productName, order.status, order.orderDate]
+        .join(' ')
+        .toLowerCase()
+        .includes(term);
     });
+  }, [query, vendorOrders]);
 
-    setShowOrderForm(false);
-    setSelectedProduct(null);
-    setOrderQuantity(1);
-    setDeliveryAddress('');
-    setSpecialNotes('');
-  };
-
-  const handleCancelOrder = (orderId) => {
-    if (window.confirm('Are you sure you want to cancel this order?')) {
-      cancelOrder(orderId);
+  const getStatusMeta = (status) => {
+    switch (status) {
+      case 'Pending':
+        return { label: 'Pending', className: 'bg-amber-500/15 text-amber-100 ring-1 ring-amber-300/20', icon: Clock3 };
+      case 'Confirmed':
+        return { label: 'Confirmed', className: 'bg-sky-500/15 text-sky-100 ring-1 ring-sky-300/20', icon: CheckCircle2 };
+      case 'Shipped':
+        return { label: 'Shipped', className: 'bg-emerald-500/15 text-emerald-100 ring-1 ring-emerald-300/20', icon: Truck };
+      case 'Delivered':
+        return { label: 'Delivered', className: 'bg-emerald-500/15 text-emerald-100 ring-1 ring-emerald-300/20', icon: CheckCircle2 };
+      default:
+        return { label: status || 'Unknown', className: 'bg-white/10 text-white/80 ring-1 ring-white/10', icon: XCircle };
     }
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-6">
-      {/* Page Header */}
-      <div className="rounded-2xl border border-blue-300/30 bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-blue-500/20 backdrop-blur-md p-6 sm:p-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Vendor Orders</h1>
-        <p className="text-white/80 text-lg">Order materials from other vendors</p>
-      </div>
+    <section className="mx-auto w-full max-w-350 text-white">
+      <div className="overflow-hidden rounded-4xl border border-white/10 bg-linear-to-br from-[#6f6bdb] via-[#7b67ca] to-[#8a5eae] shadow-[0_30px_90px_-40px_rgba(22,9,58,0.75)]">
+        <div className="border-b border-white/10 px-4 py-5 sm:px-6 lg:px-8 lg:py-7">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem]">Order Requests</h1>
+          <p className="mt-2 max-w-3xl text-sm text-white/75 sm:text-base lg:text-lg">
+            Review and manage custom purchase requests from customers.
+          </p>
+        </div>
 
-      {/* Order Stats */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Orders" value={stats.totalOrders} icon="📦" />
-        <StatCard title="Pending" value={stats.pending} icon="⏳" />
-        <StatCard title="Confirmed" value={stats.confirmed} icon="✅" />
-        <StatCard title="Shipped" value={stats.shipped} icon="🚚" />
-      </div>
-
-      {/* Place Order Button */}
-      <button
-        onClick={() => setShowOrderForm(!showOrderForm)}
-        className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#f5d97c] via-[#d4af37] to-[#a87b12] text-[#231806] font-semibold hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2"
-      >
-        <ShoppingCart className="h-5 w-5" />
-        Place New Order
-      </button>
-
-      {/* Order Form */}
-      {showOrderForm && (
-        <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md p-6 space-y-4">
-          <h2 className="text-xl font-bold text-white mb-4">Place Order</h2>
-
-          {/* Select Product */}
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Select Product *</label>
-            <select
-              value={selectedProduct?.id || ''}
-              onChange={(e) => {
-                const product = allListedProducts.find(p => p.id === parseInt(e.target.value));
-                setSelectedProduct(product);
-              }}
-              className="w-full px-3 py-2 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow-500/30 focus:border-yellow-300 transition-all appearance-none cursor-pointer"
-            >
-              <option value="" style={{ backgroundColor: '#1f2937', color: '#fff' }}>Choose a product...</option>
-              {allListedProducts.map(product => (
-                <option key={product.id} value={product.id} style={{ backgroundColor: '#1f2937', color: '#fff' }}>
-                  {product.name} ({product.vendorName}) - {product.price}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Quantity */}
-            <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">Quantity *</label>
-              <input
-                type="number"
-                value={orderQuantity}
-                onChange={(e) => setOrderQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                min="1"
-                className="w-full px-3 py-2 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow-500/30 focus:border-yellow-300 transition-all"
-              />
-            </div>
-
-            {/* Delivery Address */}
-            <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">Delivery Address *</label>
-              <input
-                type="text"
-                value={deliveryAddress}
-                onChange={(e) => setDeliveryAddress(e.target.value)}
-                placeholder="Enter delivery address"
-                className="w-full px-3 py-2 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow-500/30 focus:border-yellow-300 transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Special Notes */}
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Special Notes</label>
-            <textarea
-              value={specialNotes}
-              onChange={(e) => setSpecialNotes(e.target.value)}
-              placeholder="Add any special instructions..."
-              rows="3"
-              className="w-full px-3 py-2 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow-500/30 focus:border-yellow-300 transition-all resize-none"
+        <div className="px-3 py-4 sm:px-6 sm:py-5 lg:px-8">
+          <div className="relative group">
+            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-yellow-400/0 via-yellow-300/0 to-amber-400/0 opacity-0 blur-lg transition-opacity duration-300 group-focus-within:opacity-20 pointer-events-none" />
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/50 transition-colors duration-200 group-focus-within:text-white/70" />
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search by product name or Order ID..."
+              className="relative h-14 w-full rounded-2xl border border-white/20 bg-white/8 pl-12 pr-4 text-base text-white placeholder:text-white/40 outline-none backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-all duration-200 focus:border-white/40 focus:bg-white/12 focus:shadow-[0_12px_48px_rgba(139,92,246,0.15)] sm:h-16 sm:text-lg"
             />
           </div>
-
-          {/* Order Summary */}
-          {selectedProduct && (
-            <div className="rounded-lg border border-white/15 bg-white/5 p-4">
-              <div className="flex justify-between mb-2">
-                <span className="text-white/80">Product:</span>
-                <span className="text-white font-medium">{selectedProduct.name}</span>
-              </div>
-              <div className="flex justify-between mb-2">
-                <span className="text-white/80">Unit Price:</span>
-                <span className="text-white font-medium">{selectedProduct.price}</span>
-              </div>
-              <div className="flex justify-between mb-2 pb-2 border-b border-white/10">
-                <span className="text-white/80">Quantity:</span>
-                <span className="text-white font-medium">{orderQuantity}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white font-semibold">Total Price:</span>
-                <span className="text-yellow-300 font-bold text-lg">
-                  ₹{(parseInt(selectedProduct.price.replace(/[^0-9]/g, '')) * orderQuantity).toLocaleString('en-IN')}
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Actions */}
-          <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4 border-t border-white/15">
-            <button
-              onClick={() => {
-                setShowOrderForm(false);
-                setSelectedProduct(null);
-                setOrderQuantity(1);
-                setDeliveryAddress('');
-                setSpecialNotes('');
-              }}
-              className="px-6 py-2.5 rounded-lg border border-white/30 bg-white/10 text-sm font-semibold text-white hover:bg-white/20 active:scale-95 transition-all"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handlePlaceOrder}
-              className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#f5d97c] via-[#d4af37] to-[#a87b12] text-sm font-semibold text-[#231806] hover:brightness-110 active:scale-95 transition-all"
-            >
-              Place Order
-            </button>
-          </div>
         </div>
-      )}
 
-      {/* Orders History */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-white">Order History</h2>
-        {vendorOrders.length > 0 ? (
-          <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md overflow-hidden shadow-lg">
+        <div className="px-3 pb-3 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8">
+          <div className="overflow-hidden rounded-4xl border border-white/10 bg-white/10 backdrop-blur-md shadow-[0_18px_50px_-28px_rgba(0,0,0,0.45)]">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="min-w-225 w-full border-collapse">
                 <thead>
-                  <tr className="border-b border-white/15 bg-white/8">
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-white">Order ID</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-white">Vendor</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-white">Product</th>
-                    <th className="px-4 py-3 text-center text-sm font-semibold text-white">Qty</th>
-                    <th className="px-4 py-3 text-center text-sm font-semibold text-white">Total</th>
-                    <th className="px-4 py-3 text-center text-sm font-semibold text-white">Status</th>
-                    <th className="px-4 py-3 text-center text-sm font-semibold text-white">Date</th>
-                    <th className="px-4 py-3 text-center text-sm font-semibold text-white">Action</th>
+                  <tr className="border-b border-white/10 bg-white/5 text-left text-[0.75rem] font-semibold uppercase tracking-[0.24em] text-white/55">
+                    <th className="px-5 py-4">Order ID</th>
+                    <th className="px-5 py-4">Customer</th>
+                    <th className="px-5 py-4">Product</th>
+                    <th className="px-5 py-4 text-center">Status</th>
+                    <th className="px-5 py-4 text-center">Actions</th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  {vendorOrders.map((order) => (
-                    <tr key={order.id} className="border-b border-white/10 hover:bg-white/8 transition-all">
-                      <td className="px-4 py-3 text-white font-medium">#{order.id}</td>
-                      <td className="px-4 py-3 text-white/80">{order.vendorName}</td>
-                      <td className="px-4 py-3 text-white">{order.productName}</td>
-                      <td className="px-4 py-3 text-center text-white">{order.quantity}</td>
-                      <td className="px-4 py-3 text-center text-white font-medium">{order.totalPrice}</td>
-                      <td className="px-4 py-3 text-center">
-                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.status)}`}>
-                          {order.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-center text-white/60 text-sm">{order.orderDate}</td>
-                      <td className="px-4 py-3 text-center">
-                        {order.status === 'Pending' && (
-                          <button
-                            onClick={() => handleCancelOrder(order.id)}
-                            className="p-2 rounded text-red-300 hover:text-red-200 hover:bg-red-500/20 transition-all"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        )}
+                  {filteredOrders.length > 0 ? (
+                    filteredOrders.map((order) => {
+                      const statusMeta = getStatusMeta(order.status);
+                      const StatusIcon = statusMeta.icon;
+
+                      return (
+                        <tr key={order.id} className="border-b border-white/5 last:border-b-0 hover:bg-white/5">
+                          <td className="px-5 py-5 text-sm font-semibold text-white">#{order.id}</td>
+                          <td className="px-5 py-5 text-sm text-white/80">{order.vendorName}</td>
+                          <td className="px-5 py-5 text-sm text-white/90">{order.productName}</td>
+                          <td className="px-5 py-5 text-center">
+                            <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${statusMeta.className}`}>
+                              <StatusIcon className="h-3.5 w-3.5" />
+                              {statusMeta.label}
+                            </span>
+                          </td>
+                          <td className="px-5 py-5 text-center">
+                            <button
+                              type="button"
+                              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/75 transition hover:bg-white/12 hover:text-white"
+                              aria-label={`More actions for order ${order.id}`}
+                            >
+                              <MoreHorizontal className="h-5 w-5" />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-24 text-center">
+                        <p className="text-2xl font-semibold text-white/55">No order requests found.</p>
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
-        ) : (
-          <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md p-12 text-center">
-            <div className="text-5xl mb-4">📋</div>
-            <h3 className="text-xl font-semibold text-white mb-2">No Orders Yet</h3>
-            <p className="text-white/60">Click "Place New Order" to start ordering materials from vendors.</p>
-          </div>
-        )}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
-
-const StatCard = ({ title, value, icon }) => (
-  <div className="rounded-xl border border-white/15 bg-white/10 backdrop-blur-sm p-4 hover:bg-white/15 transition-all">
-    <div className="text-3xl mb-2">{icon}</div>
-    <p className="text-white/60 text-sm font-medium">{title}</p>
-    <p className="text-2xl font-bold text-white mt-1">{value}</p>
-  </div>
-);
 
 export default KaligardOrders;

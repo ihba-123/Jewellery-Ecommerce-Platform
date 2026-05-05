@@ -1,13 +1,18 @@
-import { useState, useMemo } from 'react';
-import { X } from 'lucide-react';
+import { useState, useMemo } from "react";
+import { X } from "lucide-react";
 
 const ProductForm = ({ product = null, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    name: product?.name || '',
-    category: product?.category || 'Designs',
-    price: product?.price ? parseFloat(product.price.replace(/[^0-9.-]/g, '')) : '',
-    quantity: product?.quantity || '',
-    description: product?.description || '',
+    name: product?.name || "",
+    category: product?.category || "Gold",
+    price: product?.price
+      ? parseFloat(product.price.replace(/[^0-9.-]/g, ""))
+      : "",
+    quantity: product?.quantity || "",
+    weight: product?.weight || "",
+    purity: product?.purity || "",
+    description: product?.description || "",
+    isHotDeal: product?.isHotDeal || false,
     imageFile: null,
     imagePreview: product?.imageUrl || null,
   });
@@ -18,23 +23,23 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
   const errors = useMemo(() => {
     const e = {};
     if (touched.name && !formData.name.trim()) {
-      e.name = 'Product name is required';
+      e.name = "Product name is required";
     }
     if (touched.category && !formData.category) {
-      e.category = 'Category is required';
+      e.category = "Category is required";
     }
     if (touched.price && (!formData.price || formData.price <= 0)) {
-      e.price = 'Price must be greater than 0';
+      e.price = "Price must be greater than 0";
     }
     if (touched.quantity && (!formData.quantity || formData.quantity < 0)) {
-      e.quantity = 'Quantity cannot be negative';
+      e.quantity = "Quantity cannot be negative";
     }
     return e;
   }, [formData, touched]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e) => {
@@ -42,10 +47,10 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
           imageFile: file,
-          imagePreview: reader.result
+          imagePreview: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -54,7 +59,7 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
 
   const handleBlur = (e) => {
     const { name } = e.target;
-    setTouched(prev => ({ ...prev, [name]: true }));
+    setTouched((prev) => ({ ...prev, [name]: true }));
   };
 
   const handleSubmit = async (e) => {
@@ -64,24 +69,27 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
       name: true,
       category: true,
       price: true,
-      quantity: true
+      quantity: true,
     });
 
     if (Object.keys(errors).length > 0) return;
 
     setIsSubmitting(true);
 
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     onSubmit({
       ...product,
       name: formData.name,
       category: formData.category,
-      price: `₹${formData.price.toLocaleString('en-IN')}`,
+      price: `₹${formData.price.toLocaleString("en-IN")}`,
       quantity: parseInt(formData.quantity),
+      weight: formData.weight ? parseFloat(formData.weight) : null,
+      purity: formData.purity ? parseFloat(formData.purity) : null,
       description: formData.description,
       imageUrl: formData.imagePreview,
-      imageFile: formData.imageFile
+      imageFile: formData.imageFile,
+      isHotDeal: formData.isHotDeal,
     });
 
     setIsSubmitting(false);
@@ -90,33 +98,32 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
   const inputClass = (fieldName) => `
     w-full px-3 py-2 rounded-lg border bg-white/10 text-white placeholder-white/40
     transition-all focus:outline-none focus:ring-2 focus:ring-yellow-500/30 focus:border-yellow-300
-    ${errors[fieldName] && touched[fieldName] ? 'border-red-500/50 bg-red-500/10' : 'border-white/20'}
+    ${errors[fieldName] && touched[fieldName] ? "border-red-500/50 bg-red-500/10" : "border-white/20"}
   `;
 
   const selectClass = (fieldName) => `
     w-full px-3 py-2 rounded-lg border bg-white/10 text-white
     transition-all focus:outline-none focus:ring-2 focus:ring-yellow-500/30 focus:border-yellow-300
-    ${errors[fieldName] && touched[fieldName] ? 'border-red-500/50 bg-red-500/10' : 'border-white/20'}
+    ${errors[fieldName] && touched[fieldName] ? "border-red-500/50 bg-red-500/10" : "border-white/20"}
     appearance-none cursor-pointer
     [&>option]: bg-gray-900 text-white
     [&_option]: bg-gray-900 text-white
   `;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onCancel}
       />
 
       {/* Modal */}
       <div className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-300">
-
         {/* Header */}
         <div className="sticky top-0 flex items-center justify-between border-b border-white/15 bg-white/5 px-6 py-4">
           <h2 className="text-xl font-bold text-white">
-            {product ? 'Edit Product' : 'Add New Product'}
+            {product ? "Edit Product" : "Add New Product"}
           </h2>
           <button
             onClick={onCancel}
@@ -128,7 +135,6 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
 
         {/* Form Content */}
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
-
           {/* Image Upload Preview */}
           <div className="flex flex-col items-center gap-4">
             <div className="w-24 h-24 rounded-lg border-2 border-dashed border-white/30 bg-white/5 flex items-center justify-center overflow-hidden">
@@ -167,7 +173,7 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="e.g., Gold Necklace"
-                className={inputClass('name')}
+                className={inputClass("name")}
               />
               {errors.name && touched.name && (
                 <p className="text-red-400 text-xs mt-1">{errors.name}</p>
@@ -184,12 +190,32 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
                 value={formData.category}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={selectClass('category')}
+                className={selectClass("category")}
               >
-                <option value="Designs" style={{ backgroundColor: '#1f2937', color: '#fff' }}>Designs</option>
-                <option value="Templates" style={{ backgroundColor: '#1f2937', color: '#fff' }}>Templates</option>
-                <option value="Components" style={{ backgroundColor: '#1f2937', color: '#fff' }}>Components</option>
-                <option value="Accessories" style={{ backgroundColor: '#1f2937', color: '#fff' }}>Accessories</option>
+                <option
+                  value="Gold"
+                  style={{ backgroundColor: "#1f2937", color: "#fff" }}
+                >
+                  Gold
+                </option>
+                <option
+                  value="Silver"
+                  style={{ backgroundColor: "#1f2937", color: "#fff" }}
+                >
+                  Silver
+                </option>
+                <option
+                  value="Diamond"
+                  style={{ backgroundColor: "#1f2937", color: "#fff" }}
+                >
+                  Diamond
+                </option>
+                <option
+                  value="Panchadhatu"
+                  style={{ backgroundColor: "#1f2937", color: "#fff" }}
+                >
+                  Panchadhatu
+                </option>
               </select>
               {errors.category && touched.category && (
                 <p className="text-red-400 text-xs mt-1">{errors.category}</p>
@@ -209,7 +235,7 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
                 onBlur={handleBlur}
                 placeholder="0.00"
                 step="0.01"
-                className={inputClass('price')}
+                className={inputClass("price")}
               />
               {errors.price && touched.price && (
                 <p className="text-red-400 text-xs mt-1">{errors.price}</p>
@@ -229,11 +255,45 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
                 onBlur={handleBlur}
                 placeholder="0"
                 min="0"
-                className={inputClass('quantity')}
+                className={inputClass("quantity")}
               />
               {errors.quantity && touched.quantity && (
                 <p className="text-red-400 text-xs mt-1">{errors.quantity}</p>
               )}
+            </div>
+
+            {/* Weight */}
+            <div>
+              <label className="block text-sm font-medium text-white/80 mb-2">
+                Weight (gm)
+              </label>
+              <input
+                type="number"
+                name="weight"
+                value={formData.weight}
+                onChange={handleChange}
+                placeholder="e.g., 5.5"
+                step="0.01"
+                className={inputClass("weight")}
+              />
+            </div>
+
+            {/* Purity */}
+            <div>
+              <label className="block text-sm font-medium text-white/80 mb-2">
+                Purity (%)
+              </label>
+              <input
+                type="number"
+                name="purity"
+                value={formData.purity}
+                onChange={handleChange}
+                placeholder="e.g., 99.9"
+                step="0.1"
+                min="0"
+                max="100"
+                className={inputClass("purity")}
+              />
             </div>
           </div>
 
@@ -248,8 +308,31 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
               onChange={handleChange}
               placeholder="Enter product description..."
               rows="4"
-              className={`${inputClass('description')} resize-none`}
+              className={`${inputClass("description")} resize-none`}
             />
+          </div>
+
+          {/* Hot Deals Toggle */}
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+            <input
+              type="checkbox"
+              name="isHotDeal"
+              id="isHotDeal"
+              checked={formData.isHotDeal}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  isHotDeal: e.target.checked,
+                }))
+              }
+              className="w-5 h-5 cursor-pointer accent-yellow-400"
+            />
+            <label
+              htmlFor="isHotDeal"
+              className="text-sm font-medium text-white/80 cursor-pointer flex-1"
+            >
+              Mark as Hot Deal ⭐
+            </label>
           </div>
 
           {/* Actions */}
@@ -266,7 +349,11 @@ const ProductForm = ({ product = null, onSubmit, onCancel }) => {
               disabled={isSubmitting}
               className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#f5d97c] via-[#d4af37] to-[#a87b12] text-sm font-semibold text-[#231806] hover:brightness-110 active:scale-95 transition-all disabled:opacity-50"
             >
-              {isSubmitting ? 'Saving...' : product ? 'Update Product' : 'Add Product'}
+              {isSubmitting
+                ? "Saving..."
+                : product
+                  ? "Update Product"
+                  : "Add Product"}
             </button>
           </div>
         </form>

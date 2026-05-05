@@ -1,162 +1,276 @@
-import { useState, useMemo, useEffect } from 'react';
-import { CheckCircle, Clock, Truck, Package } from 'lucide-react';
-import { useVendorOrders } from '../../context/VendorOrderContext';
+import { useState, useMemo } from 'react';
+import { Plus } from 'lucide-react';
+import { useKaligardProducts } from '../../context/KaligardProductContext';
+import ProductForm from '../components/ProductForm';
+import PageHeader from '../components/products/PageHeader';
 
 const KaligardListedProducts = () => {
-  const { vendorOrders, updateOrderStatus } = useVendorOrders();
-  const [loading, setLoading] = useState(true);
+  const { getListedProducts, deleteProduct, updateProduct, unlistProduct } = useKaligardProducts();
+  const listedProducts = useMemo(() => getListedProducts(), [getListedProducts]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
+  const [showProductForm, setShowProductForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [selectedProductDetail, setSelectedProductDetail] = useState(null);
+  const [toastMessage, setToastMessage] = useState('');
 
   const stats = useMemo(() => {
+    const total = listedProducts.length;
+    const totalRevenue = listedProducts.reduce((sum, p) => {
+      const price = parseFloat(p.price.replace(/[^0-9.-]/g, '')) || 0;
+      return sum + price;
+    }, 0);
     return {
-      total: vendorOrders.length,
-      pending: vendorOrders.filter(o => o.status === 'Pending').length,
-      confirmed: vendorOrders.filter(o => o.status === 'Confirmed').length,
-      shipped: vendorOrders.filter(o => o.status === 'Shipped').length
+      currently_selling: total,
+      dynamic_revenue: `NPR ${(totalRevenue / 100000).toFixed(1)}K`
     };
-  }, [vendorOrders]);
+  }, [listedProducts]);
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Pending': return 'bg-yellow-500/20 text-yellow-200';
-      case 'Confirmed': return 'bg-blue-500/20 text-blue-200';
-      case 'Shipped': return 'bg-purple-500/20 text-purple-200';
-      case 'Delivered': return 'bg-green-500/20 text-green-200';
-      default: return 'bg-gray-500/20 text-gray-200';
+  const filteredProducts = listedProducts;
+
+  const showToast = (message) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(''), 3000);
+  };
+
+  const handleAddProduct = () => {
+    setEditingProduct(null);
+    setShowProductForm(true);
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setShowProductForm(true);
+  };
+
+  const handleSaveProduct = (formData) => {
+    if (editingProduct) {
+      updateProduct(editingProduct.id, formData);
+      showToast('Product updated successfully!');
+    }
+    setShowProductForm(false);
+    setEditingProduct(null);
+  };
+
+  const handleDeleteProduct = (id) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      deleteProduct(id);
+      showToast('Product deleted!');
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'Pending':
-        return <Clock className="h-4 w-4" />;
-      case 'Confirmed':
-        return <CheckCircle className="h-4 w-4" />;
-      case 'Shipped':
-        return <Truck className="h-4 w-4" />;
-      case 'Delivered':
-        return <Package className="h-4 w-4" />;
-      default:
-        return null;
-    }
+  const handleUnlistProduct = (id) => {
+    unlistProduct(id);
+    showToast('Product unlisted!');
   };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-white/60 text-center">
-          <div className="inline-block w-8 h-8 border-3 border-white/20 border-t-yellow-300 rounded-full animate-spin mb-4" />
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-6">
-      {/* Page Header */}
-      <div className="rounded-2xl border border-blue-300/30 bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-blue-500/20 backdrop-blur-md p-6 sm:p-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Orders Received</h1>
-        <p className="text-white/80 text-lg">Orders placed by vendors for your products</p>
-      </div>
+    <div className="w-full space-y-6">
+      {/* Toast Message */}
+      {toastMessage && (
+        <div className="fixed top-4 right-4 z-50 px-4 py-3 rounded-lg bg-green-500/20 border border-green-500/50 text-green-200 text-sm font-medium animate-in fade-in slide-in-from-top-2 duration-300">
+          {toastMessage}
+        </div>
+      )}
 
-      {/* Order Stats */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Orders" value={stats.total} icon="📦" />
-        <StatCard title="Pending" value={stats.pending} icon="⏳" />
-        <StatCard title="Confirmed" value={stats.confirmed} icon="✅" />
-        <StatCard title="Shipped" value={stats.shipped} icon="🚚" />
-      </div>
+      <PageHeader
+        title="LISTED PRODUCTS"
+        subtitle="Products currently visible to customers in the store."
+        showAddButton={false}
+      />
 
-      {/* Orders Table */}
-      {vendorOrders.length > 0 ? (
-        <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md overflow-hidden shadow-lg">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/15 bg-white/8">
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-white">Order ID</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-white">Vendor</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-white">Product</th>
-                  <th className="px-4 py-3 text-center text-sm font-semibold text-white">Qty</th>
-                  <th className="px-4 py-3 text-center text-sm font-semibold text-white">Total</th>
-                  <th className="px-4 py-3 text-center text-sm font-semibold text-white">Status</th>
-                  <th className="px-4 py-3 text-center text-sm font-semibold text-white">Date</th>
-                  <th className="px-4 py-3 text-center text-sm font-semibold text-white">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {vendorOrders.map((order) => (
-                  <tr key={order.id} className="border-b border-white/10 hover:bg-white/8 transition-all">
-                    <td className="px-4 py-3 text-white font-medium">#{order.id}</td>
-                    <td className="px-4 py-3 text-white/80">{order.vendorName}</td>
-                    <td className="px-4 py-3 text-white">{order.productName}</td>
-                    <td className="px-4 py-3 text-center text-white">{order.quantity}</td>
-                    <td className="px-4 py-3 text-center text-white font-medium">{order.totalPrice}</td>
-                    <td className="px-4 py-3 text-center">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.status)}`}>
-                        {getStatusIcon(order.status)}
-                        {order.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center text-white/60 text-sm">{order.orderDate}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex gap-2 justify-center">
-                        {order.status === 'Pending' && (
-                          <button
-                            onClick={() => updateOrderStatus(order.id, 'Confirmed')}
-                            className="px-2 py-1 rounded text-xs font-medium text-blue-300 hover:text-blue-200 hover:bg-blue-500/20 transition-all"
-                          >
-                            Confirm
-                          </button>
-                        )}
-                        {order.status === 'Confirmed' && (
-                          <button
-                            onClick={() => updateOrderStatus(order.id, 'Shipped')}
-                            className="px-2 py-1 rounded text-xs font-medium text-purple-300 hover:text-purple-200 hover:bg-purple-500/20 transition-all"
-                          >
-                            Ship
-                          </button>
-                        )}
-                        {order.status === 'Shipped' && (
-                          <button
-                            onClick={() => updateOrderStatus(order.id, 'Delivered')}
-                            className="px-2 py-1 rounded text-xs font-medium text-green-300 hover:text-green-200 hover:bg-green-500/20 transition-all"
-                          >
-                            Deliver
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-6 hover:bg-white/12 transition-all">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-linear-to-br from-emerald-400 to-teal-500 flex items-center justify-center shrink-0 shadow-lg">
+              <span className="text-2xl">📦</span>
+            </div>
+            <div>
+              <p className="text-white/70 text-sm font-medium">CURRENTLY SELLING</p>
+              <p className="text-3xl font-bold text-white">{stats.currently_selling}</p>
+            </div>
           </div>
         </div>
+        <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-6 hover:bg-white/12 transition-all">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shrink-0 shadow-lg">
+              <span className="text-2xl">📊</span>
+            </div>
+            <div>
+              <p className="text-white/70 text-sm font-medium">DYNAMIC REVENUE</p>
+              <p className="text-3xl font-bold text-white">{stats.dynamic_revenue}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Products Cards Grid */}
+      {filteredProducts.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="rounded-2xl border border-white/20 bg-white/8 backdrop-blur-md overflow-hidden hover:bg-white/12 transition-all h-full flex flex-col"
+            >
+              {/* Product Image */}
+              <div className="w-full h-64 overflow-hidden bg-linear-to-br from-[#6f6bdb]/20 to-[#8a5eae]/20 flex items-center justify-center">
+                {product.imageUrl ? (
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="text-6xl">📦</div>
+                )}
+              </div>
+
+              {/* Card Content */}
+              <div className="p-6 flex flex-col flex-1">
+                {/* Product Name */}
+                <h3 className="text-lg font-bold text-white mb-2 line-clamp-2">
+                  {product.name}
+                </h3>
+
+                {/* Product ID */}
+                <p className="text-xs text-white/50 font-mono mb-4 break-all">
+                  ID: {product.id}
+                </p>
+
+                {/* Details Grid */}
+                <div className="space-y-3 mb-4 flex-1">
+                  <div className="flex justify-between items-start">
+                    <span className="text-white/60 text-sm">Category</span>
+                    <span className="text-white font-medium text-sm">{product.category}</span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <span className="text-white/60 text-sm">Stock</span>
+                    <span className="text-white font-medium text-sm">{product.quantity} units</span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <span className="text-white/60 text-sm">Price</span>
+                    <span className="text-emerald-400 font-bold text-sm">{product.price}</span>
+                  </div>
+                </div>
+
+                {/* Unlist Button */}
+                <button
+                  onClick={() => handleUnlistProduct(product.id)}
+                  className="w-full px-4 py-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-200 text-sm font-medium transition-all"
+                >
+                  Unlist Product
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
-        <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md p-12 text-center">
-          <div className="text-5xl mb-4">📭</div>
-          <h3 className="text-xl font-semibold text-white mb-2">No Orders Yet</h3>
-          <p className="text-white/60">Orders placed by vendors will appear here.</p>
+        <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-12 text-center">
+          <div className="text-6xl mb-4">📭</div>
+          <h3 className="text-2xl font-bold text-white mb-2">No Products Listed</h3>
+          <p className="text-white/60 mb-6">You haven't listed any products yet. Add a product to get started!</p>
+          <button
+            onClick={handleAddProduct}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-linear-to-r from-amber-400 to-orange-500 text-[#3d2510] font-bold hover:scale-105 transition-transform"
+          >
+            <Plus className="w-5 h-5" />
+            Add Your First Product
+          </button>
+        </div>
+      )}
+
+      {/* Product Form Modal */}
+      {showProductForm && (
+        <ProductForm
+          product={editingProduct}
+          onSubmit={handleSaveProduct}
+          onCancel={() => {
+            setShowProductForm(false);
+            setEditingProduct(null);
+          }}
+        />
+      )}
+
+      {/* Product Detail Modal */}
+      {selectedProductDetail && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="rounded-2xl border border-white/20 bg-linear-to-br from-white/10 to-white/5 backdrop-blur-md max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            {/* Header */}
+            <div className="sticky top-0 flex items-center justify-between p-6 border-b border-white/15 bg-white/5">
+              <h2 className="text-2xl font-bold text-white">Product Details</h2>
+              <button
+                onClick={() => setSelectedProductDetail(null)}
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 space-y-6">
+              {/* Image */}
+              {selectedProductDetail.imageUrl && (
+                <div className="rounded-xl overflow-hidden h-64 bg-linear-to-br from-white/10 to-white/5">
+                  <img
+                    src={selectedProductDetail.imageUrl}
+                    alt={selectedProductDetail.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+
+              {/* Info */}
+              <div className="space-y-4">
+                <div>
+                  <p className="text-white/60 text-sm">Product Name</p>
+                  <p className="text-white font-bold text-lg">{selectedProductDetail.name}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-white/60 text-sm">Category</p>
+                    <p className="text-white font-semibold">{selectedProductDetail.category}</p>
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-sm">Price</p>
+                    <p className="text-white font-semibold">{selectedProductDetail.price}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-white/60 text-sm">Quantity</p>
+                    <p className="text-white font-semibold">{selectedProductDetail.quantity}</p>
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-sm">Status</p>
+                    <p className="text-white font-semibold">{selectedProductDetail.status}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-3 pt-4 border-t border-white/15">
+                <button
+                  onClick={() => {
+                    handleEditProduct(selectedProductDetail);
+                    setSelectedProductDetail(null);
+                  }}
+                  className="flex-1 px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 hover:text-blue-200 font-semibold transition-all"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => setSelectedProductDetail(null)}
+                  className="flex-1 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/15 text-white font-semibold transition-all"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 };
-
-const StatCard = ({ title, value, icon }) => (
-  <div className="rounded-xl border border-white/15 bg-white/10 backdrop-blur-sm p-4 hover:bg-white/15 transition-all">
-    <div className="text-3xl mb-2">{icon}</div>
-    <p className="text-white/60 text-sm font-medium">{title}</p>
-    <p className="text-2xl font-bold text-white mt-1">{value}</p>
-  </div>
-);
 
 export default KaligardListedProducts;
