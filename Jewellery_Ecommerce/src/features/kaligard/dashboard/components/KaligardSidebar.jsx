@@ -10,6 +10,7 @@ import {
   Building,
   ShoppingCart,
   ListChecks,
+  Bell,
 } from "lucide-react";
 import { useAuth } from "../../../auth/hooks/useAuth";
 const KaligardSidebar = ({ isOpen, setIsOpen }) => {
@@ -47,6 +48,11 @@ const KaligardSidebar = ({ isOpen, setIsOpen }) => {
       name: "List Products",
       path: "/kaligard-dashboard/listed-products",
       icon: <ListChecks className="h-6 w-6 shrink-0" />,
+    },
+    {
+      name: "News & Info",
+      path: "/kaligard-dashboard/news",
+      icon: <Bell className="h-6 w-6 shrink-0" />,
     },
   ];
 

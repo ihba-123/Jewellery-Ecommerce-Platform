@@ -19,6 +19,8 @@ const getPageTitle = (pathname) => {
       return "Documents";
     case "bank-info":
       return "Bank Information";
+    case "news":
+      return "News & Information";
     default:
       return "Kaligard Dashboard";
   }

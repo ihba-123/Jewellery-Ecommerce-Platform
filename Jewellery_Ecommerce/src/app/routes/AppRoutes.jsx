@@ -30,6 +30,7 @@ import KaligardOrders from "../../features/kaligard/dashboard/pages/KaligardOrde
 import KaligardDocuments from "../../features/kaligard/dashboard/pages/KaligardDocuments";
 import DocumentDetail from "../../features/kaligard/dashboard/pages/DocumentDetail";
 import KaligardBankInfo from "../../features/kaligard/dashboard/pages/KaligardBankInfo";
+import KaligardNews from "../../features/kaligard/dashboard/pages/KaligardNews";
 
 /* Shared storefront wrapper — avoids repeating the same div 6 times */
 const StorefrontLayout = ({ children }) => (
@@ -98,6 +99,7 @@ const AppRoutes = () => {
           <Route path="documents" element={<KaligardDocuments />} />
           <Route path="documents/:documentType" element={<DocumentDetail />} />
           <Route path="bank-info" element={<KaligardBankInfo />} />
+          <Route path="news" element={<KaligardNews />} />
         </Route>
 
         {/* Fallback */}

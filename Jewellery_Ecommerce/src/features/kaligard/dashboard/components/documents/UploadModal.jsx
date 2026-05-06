@@ -8,7 +8,7 @@ const UploadModal = ({
   onUpload,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
       <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-white/20 bg-[#261738]/95 p-4 text-white shadow-2xl sm:max-w-lg sm:p-6">
         <div className="mb-5 flex items-start justify-between">
           <div>
