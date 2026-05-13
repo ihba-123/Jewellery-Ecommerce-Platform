@@ -185,7 +185,7 @@ const DeliveryMap = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-4">
-      <div className="relative w-full flex-1 rounded-2xl border border-white/15 bg-gradient-to-br from-white/12 to-white/5 overflow-hidden shadow-xl min-h-[500px]">
+      <div className="relative w-full flex-1 rounded-2xl border border-white/15 bg-white overflow-hidden shadow-xl min-h-[500px]">
         {locationError && (
           <div className="absolute top-4 left-4 bg-yellow-500/20 border border-yellow-500/30 text-yellow-200 rounded-lg px-4 py-2 text-xs z-40 flex items-center gap-2">
             <AlertCircle className="h-4 w-4" />

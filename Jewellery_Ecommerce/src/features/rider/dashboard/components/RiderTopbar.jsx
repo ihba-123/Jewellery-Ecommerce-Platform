@@ -27,11 +27,13 @@ const RiderTopbar = ({ onMenuClick }) => {
         </button>
 
         {/* Profile Picture */}
-        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#f5d97c] to-[#d4af37] flex items-center justify-center border-2 border-white/30 shadow-lg overflow-hidden flex-shrink-0">
+        <div className="w-10 h-10 rounded-full bg-white border-2 border-white/30 shadow-lg overflow-hidden flex-shrink-0">
           {riderProfile.imageUrl ? (
             <img src={riderProfile.imageUrl} alt="Profile" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-[#231806] font-bold text-sm">{riderProfile.fullName.charAt(0)}</span>
+            <div className="w-full h-full bg-gradient-to-r from-[#f5d97c] to-[#d4af37] flex items-center justify-center text-sm font-bold text-[#231806]">
+              {riderProfile.fullName.charAt(0)}
+            </div>
           )}
         </div>
       </div>

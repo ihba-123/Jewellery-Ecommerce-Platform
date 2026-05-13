@@ -99,11 +99,13 @@ const RiderProfile = () => {
           <div className="flex items-center gap-5">
             {/* Profile Picture */}
             <div className="relative group">
-              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#f5d97c] via-[#d4af37] to-[#a87b12] flex items-center justify-center text-4xl font-bold text-[#231806] shadow-lg border-2 border-white/20 overflow-hidden">
+              <div className="w-24 h-24 rounded-2xl bg-white border-2 border-white/20 shadow-lg overflow-hidden">
                 {riderData.imageUrl ? (
                   <img src={riderData.imageUrl} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <span className="transition-opacity duration-300">{riderData.fullName.charAt(0)}</span>
+                  <div className="w-full h-full bg-gradient-to-br from-[#f5d97c] via-[#d4af37] to-[#a87b12] flex items-center justify-center text-4xl font-bold text-[#231806]">
+                    {riderData.fullName.charAt(0)}
+                  </div>
                 )}
               </div>
               {isEditing && (
