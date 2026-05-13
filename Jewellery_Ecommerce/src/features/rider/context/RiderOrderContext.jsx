@@ -3,6 +3,11 @@ import { createContext, useState } from 'react';
 export const RiderOrderContext = createContext();
 
 export const RiderOrderProvider = ({ children }) => {
+  const [riderProfile, setRiderProfile] = useState({
+    imageUrl: '',
+    fullName: 'Arjun Singh',
+  });
+
   const [orders, setOrders] = useState([
     {
       id: 'ORD001',
@@ -59,9 +64,14 @@ export const RiderOrderProvider = ({ children }) => {
     );
   };
 
+  const updateRiderProfile = (profileData) => {
+    setRiderProfile(prev => ({ ...prev, ...profileData }));
+  };
+
   return (
-    <RiderOrderContext.Provider value={{ orders, updateOrderStatus }}>
+    <RiderOrderContext.Provider value={{ orders, updateOrderStatus, riderProfile, updateRiderProfile }}>
       {children}
     </RiderOrderContext.Provider>
   );
 };
+

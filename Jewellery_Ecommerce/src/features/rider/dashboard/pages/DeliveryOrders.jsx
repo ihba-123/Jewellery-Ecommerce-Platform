@@ -43,8 +43,8 @@ const DeliveryOrders = () => {
             onClick={() => setFilterStatus(status)}
             className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
               filterStatus === status
-                ? 'bg-gradient-to-r from-[#f5d97c] via-[#d4af37] to-[#a87b12] text-[#231806]'
-                : 'bg-white/10 text-white/70 border border-white/20 hover:bg-white/15'
+                ? 'bg-gradient-to-r from-[#f5d97c] via-[#d4af37] to-[#a87b12] text-[#231806] font-bold shadow-lg'
+                : 'bg-white/12 text-white border border-white/20 hover:bg-white/18 hover:border-white/30'
             }`}
             style={{ border: filterStatus === status ? 'none' : '1px solid rgba(255,255,255,0.2)', cursor: 'pointer' }}
           >
@@ -66,7 +66,7 @@ const DeliveryOrders = () => {
           filteredOrders.map((order) => (
             <div
               key={order.id}
-              className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md p-5 sm:p-6 hover:bg-white/15 transition-all cursor-pointer"
+              className="rounded-2xl border border-white/15 bg-gradient-to-br from-white/12 to-white/8 backdrop-blur-md p-5 sm:p-6 hover:bg-white/15 hover:border-white/25 transition-all cursor-pointer shadow-lg"
               onClick={() => setSelectedOrder(order)}
             >
               <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
@@ -77,14 +77,14 @@ const DeliveryOrders = () => {
                       {getStatusLabel(order.status)}
                     </span>
                   </div>
-                  <p className="text-sm text-white/60 mt-1">
+                  <p className="text-sm text-white/80 mt-1 font-medium">
                     <User className="inline h-4 w-4 mr-1" />
                     {order.customerName}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-[#f5d97c]">₹{order.amount}</p>
-                  <p className="text-xs text-white/60">{order.itemDescription}</p>
+                  <p className="text-xs text-white/80 font-medium">{order.itemDescription}</p>
                 </div>
               </div>
 
@@ -92,20 +92,20 @@ const DeliveryOrders = () => {
                 <div className="flex gap-2 text-sm">
                   <MapPin className="h-4 w-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                   <div className="min-w-0">
-                    <p className="text-white/60">Pickup</p>
-                    <p className="text-white truncate">{order.pickupAddress}</p>
+                    <p className="text-white/70 text-xs font-medium">Pickup</p>
+                    <p className="text-white font-semibold truncate">{order.pickupAddress}</p>
                   </div>
                 </div>
                 <div className="flex gap-2 text-sm">
                   <MapPin className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
                   <div className="min-w-0">
-                    <p className="text-white/60">Delivery</p>
-                    <p className="text-white truncate">{order.deliveryAddress}</p>
+                    <p className="text-white/70 text-xs font-medium">Delivery</p>
+                    <p className="text-white font-semibold truncate">{order.deliveryAddress}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="flex gap-4 text-xs text-white/60">
+              <div className="flex gap-4 text-xs text-white/70 font-medium">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   {new Date(order.orderDate).toLocaleDateString()}

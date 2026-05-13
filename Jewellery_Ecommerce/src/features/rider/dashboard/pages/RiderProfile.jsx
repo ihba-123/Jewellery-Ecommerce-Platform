@@ -1,11 +1,13 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
+import { RiderOrderContext } from '../../context/RiderOrderContext';
 import { Edit2, Save, X, Phone, Mail, MapPin, Truck, Upload, Camera } from 'lucide-react';
 
 const RiderProfile = () => {
+  const { riderProfile, updateRiderProfile } = useContext(RiderOrderContext);
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef(null);
   const [riderData, setRiderData] = useState({
-    fullName: 'Arjun Singh',
+    fullName: riderProfile.fullName || 'Arjun Singh',
     email: 'arjun.singh@example.com',
     phoneNumber: '+977-9841234567',
     rating: 4.8,
@@ -18,7 +20,7 @@ const RiderProfile = () => {
     joinedDate: 'March 15, 2024',
     city: 'Kathmandu',
     address: '123 Rider Street, Thamel',
-    imageUrl: '',
+    imageUrl: riderProfile.imageUrl || '',
     bankAccount: '9876543210123456',
     bankName: 'Nepal Bank Limited',
   });
@@ -36,6 +38,7 @@ const RiderProfile = () => {
 
   const handleSave = () => {
     setRiderData(editData);
+    updateRiderProfile({ imageUrl: editData.imageUrl, fullName: editData.fullName });
     setIsEditing(false);
   };
 
