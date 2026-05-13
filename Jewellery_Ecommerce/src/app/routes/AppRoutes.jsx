@@ -11,6 +11,33 @@ import SignupKaligard from "../../features/kaligard/pages/SignupKaligard";
 import OTPVerification from "../../features/storefront/pages/OTPVerification";
 import ForgotPasswordOTP from "../../features/storefront/pages/ForgotPasswordOTP";
 import ResetPassword from "../../features/storefront/pages/ResetPassword";
+import SignupSelector from "../../features/storefront/pages/SignupSelector";
+
+import { AuthProvider } from "../../features/auth/context/AuthContext";
+import ProtectedRoute from "./ProtectedRoute";
+import DashboardLayout from "../../features/dashboard/layout/DashboardLayout";
+import MyProfile from "../../features/dashboard/pages/MyProfile";
+import AddressBook from "../../features/dashboard/pages/AddressBook";
+import MyOrders from "../../features/dashboard/pages/MyOrders";
+import ManageOrder from "../../features/dashboard/pages/ManageOrder";
+import TrackOrder from "../../features/dashboard/pages/TrackOrder";
+import MyReturns from "../../features/dashboard/pages/MyReturns";
+import MyCancellations from "../../features/dashboard/pages/MyCancellations";
+import RequestOrder from "../../features/dashboard/pages/RequestOrder";
+import KaligardDashboardLayout from "../../features/kaligard/dashboard/layout/KaligardDashboardLayout";
+import KaligardProfile from "../../features/kaligard/dashboard/pages/KaligardProfile";
+import KaligardProducts from "../../features/kaligard/dashboard/pages/KaligardProducts";
+import KaligardListedProducts from "../../features/kaligard/dashboard/pages/KaligardListedProducts";
+import KaligardOrders from "../../features/kaligard/dashboard/pages/KaligardOrders";
+import KaligardDocuments from "../../features/kaligard/dashboard/pages/KaligardDocuments";
+import DocumentDetail from "../../features/kaligard/dashboard/pages/DocumentDetail";
+import KaligardBankInfo from "../../features/kaligard/dashboard/pages/KaligardBankInfo";
+import KaligardNews from "../../features/kaligard/dashboard/pages/KaligardNews";
+import RiderDashboardLayout from "../../features/rider/dashboard/layout/RiderDashboardLayout";
+import RiderProfile from "../../features/rider/dashboard/pages/RiderProfile";
+import DeliveryOrders from "../../features/rider/dashboard/pages/DeliveryOrders";
+import DeliveryMap from "../../features/rider/dashboard/pages/DeliveryMap";
+import DeliveryHistory from "../../features/rider/dashboard/pages/DeliveryHistory";
 
 import { AuthProvider } from "../../features/auth/context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
@@ -52,6 +79,7 @@ const AppRoutes = () => {
         <Route path="/categories/:categorySlug" element={<StorefrontLayout><CategoryPage /></StorefrontLayout>} />
         <Route path="/products/:productId" element={<StorefrontLayout><ProductPage /></StorefrontLayout>} />
         <Route path="/login" element={<StorefrontLayout><Login /></StorefrontLayout>} />
+        <Route path="/signup" element={<StorefrontLayout><SignupSelector /></StorefrontLayout>} />
         <Route path="/signup/customer" element={<StorefrontLayout><SignupCustomer /></StorefrontLayout>} />
         <Route path="/signup/business" element={<StorefrontLayout><SignupBusiness /></StorefrontLayout>} />
         <Route path="/signup/rider" element={<StorefrontLayout><SignupRider /></StorefrontLayout>} />
@@ -82,26 +110,22 @@ const AppRoutes = () => {
           <Route path="request-order" element={<RequestOrder />} />
         </Route>
 
-        {/* ── Kaligard Dashboard ──────────────────────── */}
+        {/* ── Rider Dashboard ──────────────────────── */}
         <Route
-          path="/kaligard-dashboard"
+          path="/rider-dashboard"
           element={
             <ProtectedRoute>
-              <KaligardDashboardLayout />
+              <RiderDashboardLayout />
             </ProtectedRoute>
           }
         >
-          {/* Default: redirect /kaligard-dashboard → /kaligard-dashboard/profile */}
+          {/* Default: redirect /rider-dashboard → /rider-dashboard/profile */}
           <Route index element={<Navigate to="profile" replace />} />
 
-          <Route path="profile" element={<KaligardProfile />} />
-          <Route path="products" element={<KaligardProducts />} />
-          <Route path="listed-products" element={<KaligardListedProducts />} />
-          <Route path="orders" element={<KaligardOrders />} />
-          <Route path="documents" element={<KaligardDocuments />} />
-          <Route path="documents/:documentType" element={<DocumentDetail />} />
-          <Route path="bank-info" element={<KaligardBankInfo />} />
-          <Route path="news" element={<KaligardNews />} />
+          <Route path="profile" element={<RiderProfile />} />
+          <Route path="deliveries" element={<DeliveryOrders />} />
+          <Route path="map" element={<DeliveryMap />} />
+          <Route path="history" element={<DeliveryHistory />} />
         </Route>
 
         {/* Fallback */}

@@ -153,7 +153,7 @@ export default function SignupExperience({ mode = "customer" }) {
          
         </div>
 
-        <div className="mb-6 grid grid-cols-4 rounded-2xl bg-white/6 p-1 gap-1 border border-white/10">
+        <div className="mb-6 grid grid-cols-3 rounded-2xl bg-white/6 p-1 gap-1 border border-white/10">
           <Link
             to="/signup/customer"
             onMouseDown={handleTabMouseDown}
@@ -167,13 +167,6 @@ export default function SignupExperience({ mode = "customer" }) {
             className={`rounded-xl px-4 py-2.5 text-center text-sm font-semibold transition-all duration-200 ${activeMode === "business" ? "bg-white shadow text-gray-900" : "text-white/65 hover:text-white/85"}`}
           >
             Business
-          </Link>
-          <Link
-            to="/signup/rider"
-            onMouseDown={handleTabMouseDown}
-            className={`rounded-xl px-4 py-2.5 text-center text-sm font-semibold transition-all duration-200 text-white/65 hover:text-white/85`}
-          >
-            Rider
           </Link>
           <Link
             to="/signup/kaligard"
