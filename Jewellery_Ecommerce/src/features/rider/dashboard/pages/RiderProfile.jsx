@@ -103,7 +103,7 @@ const RiderProfile = () => {
                 {riderData.imageUrl ? (
                   <img src={riderData.imageUrl} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  riderData.fullName.charAt(0)
+                  <span className="transition-opacity duration-300">{riderData.fullName.charAt(0)}</span>
                 )}
               </div>
               {isEditing && (
