@@ -39,27 +39,6 @@ import DeliveryOrders from "../../features/rider/dashboard/pages/DeliveryOrders"
 import DeliveryMap from "../../features/rider/dashboard/pages/DeliveryMap";
 import DeliveryHistory from "../../features/rider/dashboard/pages/DeliveryHistory";
 
-import { AuthProvider } from "../../features/auth/context/AuthContext";
-import ProtectedRoute from "./ProtectedRoute";
-import DashboardLayout from "../../features/dashboard/layout/DashboardLayout";
-import MyProfile from "../../features/dashboard/pages/MyProfile";
-import AddressBook from "../../features/dashboard/pages/AddressBook";
-import MyOrders from "../../features/dashboard/pages/MyOrders";
-import ManageOrder from "../../features/dashboard/pages/ManageOrder";
-import TrackOrder from "../../features/dashboard/pages/TrackOrder";
-import MyReturns from "../../features/dashboard/pages/MyReturns";
-import MyCancellations from "../../features/dashboard/pages/MyCancellations";
-import RequestOrder from "../../features/dashboard/pages/RequestOrder";
-import KaligardDashboardLayout from "../../features/kaligard/dashboard/layout/KaligardDashboardLayout";
-import KaligardProfile from "../../features/kaligard/dashboard/pages/KaligardProfile";
-import KaligardProducts from "../../features/kaligard/dashboard/pages/KaligardProducts";
-import KaligardListedProducts from "../../features/kaligard/dashboard/pages/KaligardListedProducts";
-import KaligardOrders from "../../features/kaligard/dashboard/pages/KaligardOrders";
-import KaligardDocuments from "../../features/kaligard/dashboard/pages/KaligardDocuments";
-import DocumentDetail from "../../features/kaligard/dashboard/pages/DocumentDetail";
-import KaligardBankInfo from "../../features/kaligard/dashboard/pages/KaligardBankInfo";
-import KaligardNews from "../../features/kaligard/dashboard/pages/KaligardNews";
-
 /* Shared storefront wrapper — avoids repeating the same div 6 times */
 const StorefrontLayout = ({ children }) => (
   <div className="min-h-[100dvh] overflow-x-clip text-white">
@@ -108,6 +87,28 @@ const AppRoutes = () => {
           <Route path="orders/:orderId/manage" element={<ManageOrder />} />
           <Route path="orders/:orderId/tracking" element={<TrackOrder />} />
           <Route path="request-order" element={<RequestOrder />} />
+        </Route>
+
+        {/* ── Kaligard Dashboard ──────────────────────── */}
+        <Route
+          path="/kaligard-dashboard"
+          element={
+            <ProtectedRoute>
+              <KaligardDashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Default: redirect /kaligard-dashboard → /kaligard-dashboard/profile */}
+          <Route index element={<Navigate to="profile" replace />} />
+
+          <Route path="profile" element={<KaligardProfile />} />
+          <Route path="products" element={<KaligardProducts />} />
+          <Route path="listed-products" element={<KaligardListedProducts />} />
+          <Route path="orders" element={<KaligardOrders />} />
+          <Route path="documents" element={<KaligardDocuments />} />
+          <Route path="documents/:documentType" element={<DocumentDetail />} />
+          <Route path="bank-info" element={<KaligardBankInfo />} />
+          <Route path="news" element={<KaligardNews />} />
         </Route>
 
         {/* ── Rider Dashboard ──────────────────────── */}
