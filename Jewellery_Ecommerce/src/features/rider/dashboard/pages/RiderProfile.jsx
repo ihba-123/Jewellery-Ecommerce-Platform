@@ -52,7 +52,10 @@ const RiderProfile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setEditData(prev => ({ ...prev, imageUrl: reader.result }));
+        const imageData = reader.result;
+        setEditData(prev => ({ ...prev, imageUrl: imageData }));
+        // Immediately update context so it shows in topbar
+        updateRiderProfile({ imageUrl: imageData, fullName: editData.fullName });
       };
       reader.readAsDataURL(file);
     }
