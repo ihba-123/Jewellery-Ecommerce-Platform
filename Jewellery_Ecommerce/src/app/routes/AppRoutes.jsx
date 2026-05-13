@@ -6,6 +6,7 @@ import Login from "../../features/storefront/pages/Login";
 import ProductPage from "../../features/storefront/pages/ProductPage";
 import SignupBusiness from "../../features/storefront/pages/SignupBusiness";
 import SignupCustomer from "../../features/storefront/pages/SignupCustomer";
+import SignupRider from "../../features/storefront/pages/SignupRider";
 import SignupKaligard from "../../features/kaligard/pages/SignupKaligard";
 import OTPVerification from "../../features/storefront/pages/OTPVerification";
 import ForgotPasswordOTP from "../../features/storefront/pages/ForgotPasswordOTP";
@@ -53,6 +54,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<StorefrontLayout><Login /></StorefrontLayout>} />
         <Route path="/signup/customer" element={<StorefrontLayout><SignupCustomer /></StorefrontLayout>} />
         <Route path="/signup/business" element={<StorefrontLayout><SignupBusiness /></StorefrontLayout>} />
+        <Route path="/signup/rider" element={<StorefrontLayout><SignupRider /></StorefrontLayout>} />
         <Route path="/signup/kaligard" element={<StorefrontLayout><SignupKaligard /></StorefrontLayout>} />
         <Route path="/otp-verification" element={<StorefrontLayout><OTPVerification /></StorefrontLayout>} />
         <Route path="/forgot-password-otp" element={<StorefrontLayout><ForgotPasswordOTP /></StorefrontLayout>} />
